@@ -268,6 +268,172 @@ test("a package vendored deep inside a larger repository is left alone", t => {
   assert.equal(lib.dedicatedClone("/repo", "/elsewhere"), false);
 });
 
+// Rebuild the publisher's whole history with the same trees under a new author,
+// the way a project rewrites published history, then force-push it.
+function rewriteHistory(publisher) {
+  const commits = git("-C", publisher, "rev-list", "--reverse", "HEAD").split("\n").filter(Boolean);
+  let parent = null;
+  for (const commit of commits) {
+    const tree = git("-C", publisher, "rev-parse", `${commit}^{tree}`);
+    const message = git("-C", publisher, "log", "-1", "--format=%B", commit);
+    const args = ["-C", publisher, "commit-tree", tree, "-m", message];
+    if (parent) args.push("-p", parent);
+    parent = execFileSync("git", args, {
+      encoding: "utf8",
+      env: { ...process.env, GIT_AUTHOR_NAME: "New Name", GIT_AUTHOR_EMAIL: "new@example.invalid", GIT_COMMITTER_NAME: "New Name", GIT_COMMITTER_EMAIL: "new@example.invalid" },
+    }).trim();
+  }
+  git("-C", publisher, "reset", "-q", "--hard", parent);
+  git("-C", publisher, "push", "-q", "-f", "origin", "HEAD:main");
+  return parent;
+}
+
+function rewrittenFixture(t) {
+  const f = fixture(t, { ahead: false });
+  fs.writeFileSync(path.join(f.publisher, "README.md"), "v2\n");
+  commitAll(f.publisher, "feat: second release");
+  git("-C", f.publisher, "push", "-q", "origin", "main");
+  git("-C", f.clone, "pull", "-q", "--ff-only");
+  const oldHead = git("-C", f.clone, "rev-parse", "HEAD");
+  const rewritten = rewriteHistory(f.publisher);
+  fs.writeFileSync(path.join(f.publisher, "README.md"), "v3\n");
+  commitAll(f.publisher, "fix: first change after the rewrite");
+  git("-C", f.publisher, "push", "-q", "origin", "main");
+  return { ...f, oldHead, rewritten, remoteHead: git("-C", f.publisher, "rev-parse", "HEAD") };
+}
+
+test("a clone from before a history rewrite is offered a realignment, not a permanent warning", t => {
+  const f = rewrittenFixture(t);
+  const before = f.snapshot();
+  const refused = f.run(["--now"]);
+  assert.equal(refused.status, 2, refused.stdout + refused.stderr);
+  assert.match(refused.stdout, /cloned before the project rewrote its published history/);
+  assert.match(refused.stdout, /2 local commits are old copies of the project's own commits/);
+  assert.match(refused.stdout, /self-update\.js" --realign/);
+  assert.equal(f.state().lastResult, "refused: rewritten history (realign available)");
+  assert.equal(git("-C", f.clone, "rev-parse", "HEAD"), f.oldHead);
+  const check = f.run(["--check", "--now"]);
+  assert.equal(check.status, 0, check.stdout + check.stderr);
+  assert.match(check.stdout, /--realign/);
+  assert.equal(git("-C", f.clone, "rev-parse", "HEAD"), f.oldHead);
+
+  const realigned = f.run(["--realign"]);
+  assert.equal(realigned.status, 0, realigned.stdout + realigned.stderr);
+  assert.match(realigned.stdout, /old history is kept on branch allsorted-backup\/pre-realign-\d{8}-\d{6}/);
+  assert.match(realigned.stdout, /realigned onto the project's history at [0-9a-f]{7} \(no files changed\)/);
+  assert.match(realigned.stdout, /Fixes:\n\s+- first change after the rewrite/);
+  assert.equal(git("-C", f.clone, "rev-parse", "HEAD"), f.remoteHead);
+  const branches = git("-C", f.clone, "for-each-ref", "--format=%(refname:short) %(objectname)", "refs/heads/allsorted-backup/");
+  assert.match(branches, new RegExp(`^allsorted-backup/pre-realign-\\d{8}-\\d{6} ${f.oldHead}$`));
+  assert.deepEqual(f.snapshot(), before);
+  assert.match(f.state().lastResult, /^updated to [0-9a-f]{7}$/);
+  // Next week it is an ordinary, current clone.
+  const again = f.run(["--now"]);
+  assert.equal(again.status, 0, again.stdout + again.stderr);
+  assert.match(again.stdout, /is up to date/);
+});
+
+test("a clone with its own commit on top of the old history is not realigned", t => {
+  const f = rewrittenFixture(t);
+  fs.writeFileSync(path.join(f.clone, "README.md"), "my own change\n");
+  commitAll(f.clone, "my change");
+  const mine = git("-C", f.clone, "rev-parse", "HEAD");
+  const refused = f.run(["--now"]);
+  assert.equal(refused.status, 2, refused.stdout + refused.stderr);
+  assert.match(refused.stdout, /your copy has commits that the project does not/);
+  assert.doesNotMatch(refused.stdout, /--realign/);
+  const forced = f.run(["--realign"]);
+  assert.equal(forced.status, 2, forced.stdout + forced.stderr);
+  assert.equal(git("-C", f.clone, "rev-parse", "HEAD"), mine);
+  assert.equal(git("-C", f.clone, "for-each-ref", "refs/heads/allsorted-backup/"), "");
+});
+
+test("rewrite detection matches reordered commits by patch-id and needs identical files", t => {
+  const base = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "self update rewrite ")));
+  t.after(() => fs.rmSync(base, { recursive: true, force: true }));
+  git("init", "-q", "--initial-branch=main", base);
+  const write = (name, text) => fs.writeFileSync(path.join(base, name), text);
+  write("root.txt", "root\n");
+  commitAll(base, "root");
+  const root = git("-C", base, "rev-parse", "HEAD");
+  // Old history adds b then a; the rewritten one adds a then b.
+  write("b.txt", "b\n"); commitAll(base, "add b");
+  write("a.txt", "a\n"); commitAll(base, "add a");
+  const oldHead = git("-C", base, "rev-parse", "HEAD");
+  git("-C", base, "checkout", "-q", "-b", "rewritten", root);
+  write("a.txt", "a\n"); commitAll(base, "add a");
+  write("b.txt", "b\n"); commitAll(base, "add b");
+  const newHead = git("-C", base, "rev-parse", "HEAD");
+  assert.deepEqual(lib.findRewrite(base, oldHead, newHead), { target: newHead, matched: 2 });
+  // An old history whose final files differ from every project commit is not a rewrite.
+  git("-C", base, "checkout", "-q", "-b", "diverged", oldHead);
+  write("mine.txt", "mine\n"); commitAll(base, "my file");
+  assert.equal(lib.findRewrite(base, git("-C", base, "rev-parse", "HEAD"), newHead), null);
+  // Same files at the end, but one local commit the project never had.
+  git("-C", base, "rm", "-q", "mine.txt"); commitAll(base, "remove my file");
+  assert.equal(lib.findRewrite(base, git("-C", base, "rev-parse", "HEAD"), newHead), null);
+  // A member who reverted the newest release has the previous release's files,
+  // but the revert is their own decision and must never be undone by a realign.
+  git("-C", base, "checkout", "-q", "-b", "reverted", newHead);
+  git("-C", base, ...commitArgs, "revert", "--no-edit", "HEAD");
+  assert.equal(lib.findRewrite(base, git("-C", base, "rev-parse", "HEAD"), newHead), null);
+});
+
+test("--check on a pre-rewrite clone points at --realign in one line and changes nothing", t => {
+  const f = rewrittenFixture(t);
+  for (const args of [["--check", "--now"], ["--check", "--realign"]]) {
+    const result = f.run(args);
+    assert.equal(result.status, 0, result.stdout + result.stderr);
+    assert.equal(result.stdout.trim().split("\n").length, 1, result.stdout);
+    assert.match(result.stdout, /cloned before the project rewrote its history.*--realign/);
+    assert.equal(git("-C", f.clone, "rev-parse", "HEAD"), f.oldHead);
+    assert.equal(git("-C", f.clone, "for-each-ref", "refs/heads/allsorted-backup/"), "");
+  }
+  assert.match(f.state().lastResult, /^update available: realign needed/);
+});
+
+test("a realign whose update then fails its self-test rolls back onto the new history, old history kept", t => {
+  const f = rewrittenFixture(t);
+  fs.writeFileSync(path.join(f.publisher, "test/selftest.test.js"), 'require("node:test")("fails", () => { throw new Error("broken release"); });\n');
+  commitAll(f.publisher, "feat: a broken release");
+  git("-C", f.publisher, "push", "-q", "origin", "main");
+  const before = f.snapshot();
+  const result = f.run(["--realign"]);
+  assert.equal(result.status, 1, result.stdout + result.stderr);
+  assert.match(result.stdout, /self-test failed/);
+  assert.match(result.stdout, /old history is still on branch allsorted-backup\/pre-realign-/);
+  // Rolled back to the rewritten copy of the member's own commit: same files as before.
+  assert.equal(git("-C", f.clone, "rev-parse", "HEAD^{tree}"), git("-C", f.clone, "rev-parse", `${f.oldHead}^{tree}`));
+  git("-C", f.clone, "merge-base", "--is-ancestor", "HEAD", "origin/main"); // throws if HEAD left the project's history
+  assert.deepEqual(f.snapshot(), before);
+  assert.match(git("-C", f.clone, "for-each-ref", "--format=%(objectname)", "refs/heads/allsorted-backup/"), new RegExp(`^${f.oldHead}$`));
+});
+
+test("a folder reached through a differently cased path is still a dedicated clone", t => {
+  const previous = process.env.ALLSORTED_SELF_UPDATE_PLATFORM;
+  t.after(() => { if (previous === undefined) delete process.env.ALLSORTED_SELF_UPDATE_PLATFORM; else process.env.ALLSORTED_SELF_UPDATE_PLATFORM = previous; });
+  process.env.ALLSORTED_SELF_UPDATE_PLATFORM = "darwin";
+  assert.equal(lib.dedicatedClone("/Users/sam/Projects/strategist", "/Users/sam/projects/strategist"), true);
+  assert.equal(lib.dedicatedClone("/Users/sam/Projects/strategist", "/Users/sam/projects/strategist/tool"), true);
+  assert.equal(lib.dedicatedClone("/Users/sam/Projects/strategist", "/Users/sam/projects/other"), false);
+  process.env.ALLSORTED_SELF_UPDATE_PLATFORM = "linux";
+  assert.equal(lib.dedicatedClone("/Users/sam/Projects/strategist", "/Users/sam/projects/strategist"), false);
+  assert.equal(lib.dedicatedClone("/repo", "/repo"), true);
+});
+
+test("on a case-insensitive disk the updater runs from a differently cased path", t => {
+  const f = fixture(t);
+  const flipped = path.join(path.dirname(f.clone), path.basename(f.clone).toUpperCase());
+  if (!fs.existsSync(flipped)) { t.skip("this disk is case-sensitive"); return; }
+  const result = spawnSync(process.execPath, [path.join(flipped, "scripts/self-update.js"), "--now"], {
+    cwd: flipped, encoding: "utf8", timeout: 120000,
+    env: { ...process.env, HOME: f.base, ALLSORTED_AUTO_UPDATE: "", ALLSORTED_SELF_UPDATE_NO_LAUNCHCTL: "1" },
+  });
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  assert.doesNotMatch(result.stdout, /sits inside a larger repository/);
+  assert.equal(git("-C", f.clone, "rev-parse", "HEAD"), f.remoteHead);
+});
+
 test("protected globs, self-test selection and grouping", () => {
   for (const file of [".env", ".env.local", "config.json", "meta-ads/config/config.json", "data/x.json", "meta-ads/data/cache/y.json", "runs/1/out.json", "personal/me.md", "brand/kit.json", "state/updates.json", "library/a.png", "settings.local.json"]) {
     assert.equal(lib.matchesProtected(file), true, file);
