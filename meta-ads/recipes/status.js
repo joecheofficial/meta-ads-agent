@@ -12,20 +12,23 @@
 // the module's readiness contract (config/config.json) but no code in this release
 // reads their values, so they gate the verdict without being consumed. That is
 // called out rather than hidden behind a single boolean.
-const { readinessReport } = require("../src/readiness");
+const { readEnvFile, connectionMode } = require("../src/readiness");
+const config = require("../config/config.json");
 
 const CONSUMED_BY_API_CLIENT = ["META_ADS_ACCESS_TOKEN", "META_ADS_ACCOUNT_ID"];
 const REQUIRED_BUT_NOT_CONSUMED = ["META_ADS_APP_ID", "META_ADS_APP_SECRET"];
 
 module.exports.runRecipe = async function runRecipe() {
-  const report = readinessReport();
+  const local = readEnvFile();
+  const checks = config.requiredEnvVars.map(name => ({ name, present: Boolean(process.env[name] || local[name]), source: process.env[name] ? "process" : local[name] ? "local-env" : "missing" }));
+  const report = { env: checks, missing: checks.filter(entry => !entry.present).map(entry => entry.name), status: "configuration-only", apiVersion: config.apiVersion };
   const configured = report.missing.length === 0;
   const present = report.env.filter((entry) => entry.present).map((entry) => entry.name);
 
   const lines = [];
   lines.push(
     configured
-      ? `Ad account access is configured. ${present.join(", ")} are all set, so live reads are unlocked.`
+      ? `Ad account configuration is present. ${present.join(", ")} are all set. Live account access is not verified by this status check.`
       : `Ad account access is not configured yet. Missing: ${report.missing.join(", ")}.${present.length ? ` Already set: ${present.join(", ")}.` : ""} Add the missing names to your own environment or to the module's local .env file, then run this check again.`
   );
   lines.push(`Only ${CONSUMED_BY_API_CLIENT.join(" and ")} are actually used to sign a request. ${REQUIRED_BUT_NOT_CONSUMED.join(" and ")} are required by the readiness contract but are not read by any code in this release.`);

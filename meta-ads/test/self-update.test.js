@@ -413,11 +413,11 @@ test("a folder reached through a differently cased path is still a dedicated clo
   const previous = process.env.ALLSORTED_SELF_UPDATE_PLATFORM;
   t.after(() => { if (previous === undefined) delete process.env.ALLSORTED_SELF_UPDATE_PLATFORM; else process.env.ALLSORTED_SELF_UPDATE_PLATFORM = previous; });
   process.env.ALLSORTED_SELF_UPDATE_PLATFORM = "darwin";
-  assert.equal(lib.dedicatedClone("/Users/sam/Projects/strategist", "/Users/sam/projects/strategist"), true);
-  assert.equal(lib.dedicatedClone("/Users/sam/Projects/strategist", "/Users/sam/projects/strategist/tool"), true);
-  assert.equal(lib.dedicatedClone("/Users/sam/Projects/strategist", "/Users/sam/projects/other"), false);
+  assert.equal(lib.dedicatedClone("/Work/Projects/strategist", "/Work/projects/strategist"), true);
+  assert.equal(lib.dedicatedClone("/Work/Projects/strategist", "/Work/projects/strategist/tool"), true);
+  assert.equal(lib.dedicatedClone("/Work/Projects/strategist", "/Work/projects/other"), false);
   process.env.ALLSORTED_SELF_UPDATE_PLATFORM = "linux";
-  assert.equal(lib.dedicatedClone("/Users/sam/Projects/strategist", "/Users/sam/projects/strategist"), false);
+  assert.equal(lib.dedicatedClone("/Work/Projects/strategist", "/Work/projects/strategist"), false);
   assert.equal(lib.dedicatedClone("/repo", "/repo"), true);
 });
 

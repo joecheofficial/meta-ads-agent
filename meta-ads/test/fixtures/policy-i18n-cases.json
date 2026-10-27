@@ -1,0 +1,326 @@
+{
+  "about": "Fixture ad copy for the multilingual policy check. Each language has, per category, one ad that must be flagged with the listed rule and one clean ad that must pass. Copy is invented; no real people, numbers or accounts.",
+  "languages": {
+    "es": {
+      "personal": {
+        "flag": "¿Sufres de ansiedad? Nuestro programa te ayuda.",
+        "rule": "personal-attributes-health",
+        "clean": "Clases de respiración para el estrés, los martes por la tarde."
+      },
+      "health": {
+        "flag": "Pierde 10 kilos en un mes con nuestras fotos de antes y después.",
+        "rule": "weight-loss-claims",
+        "clean": "Clases de yoga suave para principiantes en Madrid."
+      },
+      "financial": {
+        "flag": "Gana 5.000 € al mes desde casa, resultados garantizados.",
+        "rule": "income-claims",
+        "clean": "Aprende a fijar el precio de tus servicios en un curso de cuatro semanas."
+      },
+      "discrimination": {
+        "flag": "Piso en alquiler. No se admiten inmigrantes ni extranjeros.",
+        "rule": "discriminatory-practices",
+        "clean": "Piso luminoso cerca del metro, ideal para estudiantes."
+      },
+      "prohibited": {
+        "flag": "Los mejores vapeadores y cigarrillos electrónicos con envío gratis.",
+        "rule": "prohibited-tobacco-vape",
+        "clean": "Los mejores tés de hierbas con envío gratis."
+      }
+    },
+    "pt": {
+      "personal": {
+        "flag": "Você está endividado? Nós ajudamos com suas dívidas.",
+        "rule": "personal-attributes-finances",
+        "clean": "Aulas de planejamento financeiro para pequenas empresas."
+      },
+      "health": {
+        "flag": "Este chá cura a diabetes em poucas semanas.",
+        "rule": "cure-claims",
+        "clean": "Chá de ervas para acompanhar o seu café da manhã."
+      },
+      "financial": {
+        "flag": "Ganhe R$ 10.000 por mês com renda passiva garantida.",
+        "rule": "income-claims",
+        "clean": "Curso de marketing digital para quem está começando."
+      },
+      "discrimination": {
+        "flag": "Quarto para alugar. Não aceitamos estrangeiros.",
+        "rule": "discriminatory-practices",
+        "clean": "Quarto para alugar perto da praia, ideal para estudantes."
+      },
+      "prohibited": {
+        "flag": "Compre armas de fogo e munição com desconto.",
+        "rule": "prohibited-weapons",
+        "clean": "Compre bicicletas e capacetes com desconto."
+      }
+    },
+    "fr": {
+      "personal": {
+        "flag": "Vous souffrez de dépression ? Notre méthode peut vous aider.",
+        "rule": "personal-attributes-health",
+        "clean": "Ateliers de bien-être le jeudi soir à Lyon."
+      },
+      "health": {
+        "flag": "Découvrez nos photos avant et après le programme.",
+        "rule": "before-after",
+        "clean": "Découvrez nos cours de cuisine du programme d'automne."
+      },
+      "financial": {
+        "flag": "Gagnez 3 000 € par mois sans expérience, revenus garantis.",
+        "rule": "income-claims",
+        "clean": "Formation à la comptabilité pour les indépendants."
+      },
+      "discrimination": {
+        "flag": "Appartement à louer, interdit aux étrangers.",
+        "rule": "discriminatory-practices",
+        "clean": "Appartement à louer, proche de la gare et des écoles."
+      },
+      "prohibited": {
+        "flag": "Félicitations, vous avez gagné un iPhone ! Réclamez votre cadeau.",
+        "rule": "fake-ui-or-prize",
+        "clean": "Inscrivez-vous à notre lettre d'information mensuelle."
+      }
+    },
+    "de": {
+      "personal": {
+        "flag": "Haben Sie Schulden? Wir helfen Ihnen sofort.",
+        "rule": "personal-attributes-finances",
+        "clean": "Finanzplanung für kleine Unternehmen, jeden Dienstag."
+      },
+      "health": {
+        "flag": "Verliere 8 kg in zwei Wochen mit unserem Fettverbrenner.",
+        "rule": "weight-loss-claims",
+        "clean": "Sanftes Yoga für Anfänger in Berlin."
+      },
+      "financial": {
+        "flag": "Verdiene 2.000 € pro Woche, garantiert.",
+        "rule": "income-claims",
+        "clean": "Lerne, deine Dienstleistungen richtig zu bepreisen."
+      },
+      "discrimination": {
+        "flag": "Wohnung zu vermieten. Keine Ausländer.",
+        "rule": "discriminatory-practices",
+        "clean": "Wohnung zu vermieten, nahe der U-Bahn, ideal für Studenten."
+      },
+      "prohibited": {
+        "flag": "E-Zigaretten und Nikotin Liquids zum halben Preis.",
+        "rule": "prohibited-tobacco-vape",
+        "clean": "Kräutertee und Honig zum halben Preis."
+      }
+    },
+    "it": {
+      "personal": {
+        "flag": "Soffri di ansia? Il nostro corso ti aiuta.",
+        "rule": "personal-attributes-health",
+        "clean": "Corso di respirazione contro lo stress, ogni martedì."
+      },
+      "health": {
+        "flag": "Brucia i grassi e perdi 7 chili in un mese.",
+        "rule": "weight-loss-claims",
+        "clean": "Lezioni di pilates per principianti a Milano."
+      },
+      "financial": {
+        "flag": "Guadagna 4.000 € al mese con il trading, rendimenti garantiti.",
+        "rule": "income-claims",
+        "clean": "Corso di contabilità per piccole imprese."
+      },
+      "discrimination": {
+        "flag": "Affittasi monolocale. Non affittiamo a stranieri.",
+        "rule": "discriminatory-practices",
+        "clean": "Affittasi monolocale arredato vicino all'università."
+      },
+      "prohibited": {
+        "flag": "Sigarette elettroniche e tabacco in offerta.",
+        "rule": "prohibited-tobacco-vape",
+        "clean": "Caffè e biscotti artigianali in offerta."
+      }
+    },
+    "nl": {
+      "personal": {
+        "flag": "Heb je schulden? Wij lossen het op.",
+        "rule": "personal-attributes-finances",
+        "clean": "Financiële planning voor zzp'ers, elke dinsdag."
+      },
+      "health": {
+        "flag": "Dit middel geneest je depressie in een week.",
+        "rule": "cure-claims",
+        "clean": "Wandelgroep in het park, elke zaterdag."
+      },
+      "financial": {
+        "flag": "Verdien 3000 euro per maand met passief inkomen.",
+        "rule": "income-claims",
+        "clean": "Leer je diensten beter te prijzen in vier weken."
+      },
+      "discrimination": {
+        "flag": "Kamer te huur, geen buitenlanders.",
+        "rule": "discriminatory-practices",
+        "clean": "Kamer te huur, dichtbij het station, ideaal voor studenten."
+      },
+      "prohibited": {
+        "flag": "Vuurwapens en munitie, nu in de aanbieding.",
+        "rule": "prohibited-weapons",
+        "clean": "Fietsen en helmen, nu in de aanbieding."
+      }
+    },
+    "id": {
+      "personal": {
+        "flag": "Apakah kamu punya utang? Kami bantu lunasi.",
+        "rule": "personal-attributes-finances",
+        "clean": "Kelas perencanaan keuangan untuk UMKM setiap Selasa."
+      },
+      "health": {
+        "flag": "Turun 10 kg dalam sebulan, lihat foto sebelum dan sesudah.",
+        "rule": "weight-loss-claims",
+        "clean": "Kelas yoga untuk pemula di Ubud setiap pagi."
+      },
+      "financial": {
+        "flag": "Dapatkan Rp 10 juta per bulan dari rumah, dijamin berhasil!",
+        "rule": "income-claims",
+        "clean": "Belajar menentukan harga jasa kamu dalam kursus empat minggu."
+      },
+      "discrimination": {
+        "flag": "Kos disewakan, tidak menerima non muslim.",
+        "rule": "discriminatory-practices",
+        "clean": "Kos disewakan dekat kampus, cocok untuk mahasiswa."
+      },
+      "prohibited": {
+        "flag": "Jual rokok elektrik dan liquid vape murah.",
+        "rule": "prohibited-tobacco-vape",
+        "clean": "Jual kopi Bali dan teh herbal murah."
+      }
+    }
+  },
+  "unsupported": [
+    {
+      "text": "สมัครวันนี้ รับรายได้ 100,000 บาทต่อเดือน รับประกันผล",
+      "language": "thai",
+      "name": "Thai"
+    },
+    {
+      "text": "Kumita ng malaki ngayon, sigurado ang kita mo sa amin po ito ang paraan",
+      "language": "tl",
+      "name": "Tagalog"
+    },
+    {
+      "text": "Заработай 100 000 рублей в месяц, гарантированный результат",
+      "language": "cyrl",
+      "name": "a Cyrillic-script language (for example Russian or Ukrainian)"
+    }
+  ],
+  "mixed": [
+    {
+      "text": "Join our free AI workshop in Bali. Dapatkan Rp 50 juta sebulan, dijamin!",
+      "rules": [
+        "income-claims",
+        "guaranteed-results"
+      ],
+      "languages": [
+        "en",
+        "id"
+      ]
+    },
+    {
+      "text": "Are you in debt? ¿Tienes deudas? Te ayudamos hoy.",
+      "rules": [
+        "personal-attributes-finances"
+      ],
+      "languages": [
+        "en",
+        "es"
+      ]
+    },
+    {
+      "text": "Our new course starts Monday. 今すぐ参加して月収100万円を保証します",
+      "rules": [
+        "language-not-checked"
+      ],
+      "languages": [
+        "en",
+        "jpan"
+      ],
+      "notChecked": [
+        "jpan"
+      ]
+    },
+    {
+      "text": "Join our class today and get more from your week. Schudnij dziesięć kilogramów szybko gwarantowany efekt każdego miesiąca dzięki tabletkom",
+      "rules": [
+        "language-not-checked"
+      ],
+      "languages": [
+        "en",
+        "pl"
+      ],
+      "notChecked": [
+        "pl"
+      ]
+    }
+  ],
+  "unsupportedShort": [
+    "Schudnij 10 kg w tydzień, gwarancja efektu",
+    "Diyabetinizi 7 günde tedavi edin",
+    "Zhubněte 10 kg za týden",
+    "Slabeste 10 kg in 7 zile garantat",
+    "Giảm 10 kg trong 7 ngày",
+    "Laihdu 10 kiloa viikossa ilman dieettiä",
+    "Schudnij 10 kg na zawsze, bez diety, gwarancja efektu w 30 dni",
+    "Gå ner 10 kg på en vecka",
+    "Fogyj le 10 kilót egy hét alatt garantáltan",
+    "Zayiflama cayi ile 10 kilo ver, free kargo",
+    "Pata pesa haraka kila siku online",
+    "Giam 10 kg, free ship, order ngay",
+    "Mua ngay, free ship, sale het",
+    "Order na, free delivery sa lahat"
+  ],
+  "englishClean": [
+    "Cool mist vapor for a better night's sleep.",
+    "Average annual gains on our index fund are shown in the report.",
+    "Thank u for supporting people who care.",
+    "Use on whites only.",
+    "Men only retreat in Ubud this June.",
+    "Locals only: 20% off for Bali residents.",
+    "A ton of people love our puff pastry and cleaning liquids.",
+    "Our black shoes and white shirts are on sale this week.",
+    "Join our free AI workshop in Bali this Saturday.",
+    "Book a table for two at our new restaurant.",
+    "Explore guided breathing classes.",
+    "Fresh bread daily",
+    "Summer Sale Starts Today",
+    "Thank you\nDiabetes care tips every week",
+    "Your journey starts here\ndebt free living tips"
+  ],
+  "otherClean": [
+    "Je suis coach pour les personnes trans.",
+    "Je souffrais de migraine depuis 10 ans, et voici mon histoire.",
+    "Prodotti italiani, consegna gratuita in tutta Italia.",
+    "Zufriedenheit garantiert oder Geld zurück.",
+    "Glock-style revolver cylinder lamp"
+  ],
+  "unsupportedHeadlines": [
+    "Schudnij 10 kg szybko",
+    "Kilo vermek artik kolay",
+    "Giam 10 kg trong 7 ngay",
+    "Uji kwa bei nafuu leo",
+    "Schudnij 10 kg szybko, kurs online",
+    "Giam 10 kg trong 7 ngay, mua online",
+    "Kilo ver, sale bugun"
+  ],
+  "englishNotMislabelled": [
+    "Take good care of your skin this summer.",
+    "Stay till late with us tonight.",
+    "Fresh ale on tap every Friday.",
+    "Thai tai chi classes for everyone.",
+    "Mar a Lago style villas near the beach.",
+    "Si you can, join us.",
+    "Win a w-shaped pillow.",
+    "Sie and her team bake fresh bread daily."
+  ],
+  "supportedHeadlines": [
+    "Cours de yoga Bali",
+    "Kelas yoga pemula Ubud",
+    "Premium Pet Care Delivered",
+    "Fresh bread daily",
+    "Summer Sale Starts Today"
+  ]
+}

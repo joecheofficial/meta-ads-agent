@@ -72,7 +72,7 @@ function liveWriteGate(action, dryRun) {
 function isRetryable(status, error) {
   return [429, 500, 502, 503].includes(status)
     || error?.is_transient === true
-    || error?.code === 2;
+    || [2, 17].includes(error?.code);
 }
 
 function checkCredentials() {
@@ -316,6 +316,40 @@ async function createAdSet({ campaignId, name, dailyBudget, targeting, optimizat
 async function listAds(adSetId = null, fields = AD_FIELDS) {
   const endpoint = adSetId ? `/${adSetId}/ads` : `/${ACCOUNT_ID}/ads`;
   return getPaginated(endpoint, { fields, limit: 100 });
+}
+
+async function listAdCreatives(fields = "id,name,status,title,body,object_type,thumbnail_url") {
+  return getPaginated(`/${ACCOUNT_ID}/adcreatives`, { fields, limit: 100 });
+}
+
+// Ads in this account that still point at a creative. Deleting a creative an
+// ad uses would break that ad, so deleteAdCreative refuses when this is not empty.
+async function adsUsingCreative(creativeId) {
+  // Include archived and paused ads: Meta's default listing leaves archived ones out.
+  const ads = await getPaginated(`/${ACCOUNT_ID}/ads`, {
+    fields: "id,name,effective_status,creative{id}",
+    effective_status: ["ACTIVE", "PAUSED", "ARCHIVED", "IN_PROCESS", "WITH_ISSUES", "PENDING_REVIEW", "DISAPPROVED", "PREAPPROVED", "PENDING_BILLING_INFO", "CAMPAIGN_PAUSED", "ADSET_PAUSED"],
+    limit: 100,
+  });
+  const rows = Array.isArray(ads) ? ads : ads?.data || [];
+  return rows.filter((ad) => String(ad?.creative?.id) === String(creativeId))
+    .map((ad) => ({ id: ad.id, name: ad.name, effectiveStatus: ad.effective_status }));
+}
+
+async function deleteAdCreative(creativeId, dryRun = false) {
+  if (!/^\d+$/.test(String(creativeId || ""))) throw new Error("creatives delete: the creative ID must be digits only");
+  liveWriteGate("creatives delete", dryRun);
+  // Only delete IDs that are creatives in this ad account. An ad, ad set or
+  // campaign ID is also all digits, and DELETE on it would remove that object.
+  const creatives = await listAdCreatives("id");
+  const known = (Array.isArray(creatives) ? creatives : creatives?.data || []).some((c) => String(c?.id) === String(creativeId));
+  if (!known) throw new Error(`creatives delete: refused, ${creativeId} is not an ad creative in ${ACCOUNT_ID}. Check the ID with: creatives list`);
+  const usedBy = await adsUsingCreative(creativeId);
+  if (usedBy.length) {
+    const list = usedBy.map((ad) => `${ad.id} (${ad.name}, ${ad.effectiveStatus})`).join(", ");
+    throw new Error(`creatives delete: refused, creative ${creativeId} is used by ${usedBy.length} ad(s): ${list}. Delete or change those ads first.`);
+  }
+  return apiCall(`/${creativeId}`, "DELETE", null, {}, { dryRun });
 }
 
 async function createAdCreative({ name, pageId, instagramUserId, message, link, imageHash, imageUrl, callToAction = "LEARN_MORE" }, dryRun = false) {
@@ -742,6 +776,7 @@ module.exports = {
   listCampaigns, getCampaign, createCampaign, updateCampaign, pauseCampaign, activateCampaign,
   listAdSets, createAdSet,
   listAds, createAdCreative, createAd, createCarouselCreative,
+  listAdCreatives, adsUsingCreative, deleteAdCreative,
   uploadAdImage, listAdImages,
   updateBudget,
   updateAdSetOptimizationGoal,

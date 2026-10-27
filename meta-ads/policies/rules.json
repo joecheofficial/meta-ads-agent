@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "checkedOn": "2026-10-03",
-  "about": "Rules the Meta Ads agent uses to check ad text against Meta's Advertising Standards. Each rule has an id, a level (BLOCK = fix before running, WARN = check it), the section of policies/meta-advertising-standards.md it comes from, a plain explanation and a rewrite hint. Patterns are JavaScript regular expressions, matched case-insensitively unless the rule sets flags. To add a rule, copy one, give it a new id, and run: node src/index.js policy rules",
+  "about": "Rules the Meta Ads agent uses to check ad text against Meta's Advertising Standards. Each rule has an id, a level (BLOCK = fix before running, WARN = check it), the section of policies/meta-advertising-standards.md it comes from, a plain explanation and a rewrite hint. Patterns are JavaScript regular expressions, matched case-insensitively unless the rule sets flags. To add a rule, copy one, give it a new id, and run: node src/index.js policy rules Non-English word lists live in policies/rules-i18n.json and reuse these rule ids; text in a language with no list gets a language-not-checked warning instead of a clean pass.",
   "personalSubject": "\\b(you|your|you're|youre|yours|yourself|are you|do you|have you)\\b",
   "rules": [
     {
@@ -394,6 +394,19 @@
       "source": "https://transparency.meta.com/policies/ad-standards/restricted-goods-services/financial-services/"
     },
     {
+      "id": "discriminatory-practices",
+      "level": "BLOCK",
+      "type": "pattern",
+      "section": "9. Prohibited content (always rejected)",
+      "title": "Turns people away for who they are",
+      "patterns": [
+        "\\b(no|not for|we don'?t (accept|rent to|hire)|we do not (accept|rent to|hire))\\s+(foreigners|immigrants|blacks|black people|asians|arabs|muslims|jews|christians|gays|homosexuals|indians|mexicans|latinos)\\b"
+      ],
+      "explain": "Meta does not allow ads that exclude or discriminate against people based on race, ethnicity, religion, nationality, sexual orientation, sex, age or disability.",
+      "rewrite": "Say who the offer is for without turning anyone away. Example: \"Rooms available for students\".",
+      "source": "https://transparency.meta.com/policies/ad-standards/objectionable-content/discriminatory-practices/"
+    },
+    {
       "id": "landing-page-https",
       "level": "WARN",
       "type": "link",
@@ -413,6 +426,17 @@
       "patterns": ["FILL_IN", "example\\.com", "<[^>]+>"],
       "explain": "The link must go to a working page that matches the ad. A placeholder link gets the ad rejected.",
       "rewrite": "Put the real page address in the link field.",
+      "source": "https://transparency.meta.com/policies/ad-standards/"
+    },
+    {
+      "id": "language-not-checked",
+      "level": "WARN",
+      "type": "coverage",
+      "section": "About this check",
+      "title": "Not checked: no word list for this language",
+      "patterns": [],
+      "explain": "The policy check has word lists for English, Spanish, Portuguese, French, German, Italian, Dutch and Indonesian only. Text in other languages was not checked, so a clean result would mean nothing.",
+      "rewrite": "Review this text by hand against policies/meta-advertising-standards.md, or add the language to policies/rules-i18n.json.",
       "source": "https://transparency.meta.com/policies/ad-standards/"
     }
   ],
