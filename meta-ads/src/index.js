@@ -20,6 +20,8 @@
  *   node src/index.js ads list [adsetId]               - List ads
  *   node src/index.js ads create '<json>'              - Create ad
  *   node src/index.js creatives create '<json>'        - Create ad creative
+ *   node src/index.js creatives list                   - List ad creatives
+ *   node src/index.js creatives delete <id> --confirm "CONFIRM DELETE <id>" - Delete an unused creative
  *   node src/index.js creatives carousel <spec.json|'<json>'> [--dry-run] - Create carousel creative
  *   node src/index.js creatives carousel --example    - Print carousel spec template
  *   node src/index.js images upload <path|url> [name]  - Upload an ad image
@@ -431,8 +433,16 @@ async function main() {
             pp(result);
             break;
           }
+          case "list":
+            pp(await api.listAdCreatives());
+            break;
+          case "delete":
+            if (!args[2]) { console.error("Usage: creatives delete <id> --confirm \"CONFIRM DELETE <id>\""); process.exit(1); }
+            if (!isDryRun) requireSpendConfirmation(args, "DELETE", args[2]);
+            pp(await api.deleteAdCreative(args[2], isDryRun));
+            break;
           default:
-            console.error("Usage: creatives create '<json>' | creatives carousel <spec.json|'<json>'> [--dry-run] | creatives carousel --example");
+            console.error("Usage: creatives list | creatives create '<json>' | creatives delete <id> --confirm \"CONFIRM DELETE <id>\" | creatives carousel <spec.json|'<json>'> [--dry-run] | creatives carousel --example");
             process.exit(1);
         }
         break;

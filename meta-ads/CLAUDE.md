@@ -15,8 +15,14 @@ These rules apply to every assistant (Claude, Codex, Cursor, Copilot, any other)
 - Never edit anything under `src/` or `config/` to get past a safety gate, a refusal or a missing setting.
 - If a command says "writes disabled", stop. Tell the user to set `META_ADS_WRITES_ENABLED=true` themselves if they want live writes. Do not set it for them and do not edit the code.
 - Budgets are capped by `META_ADS_MAX_DAILY_BUDGET_CENTS` (default 2000 cents, $20 a day). The cap is the user's to change. Never raise it, remove it or edit the check.
-- Confirmation phrases (`CONFIRM PAUSE <id>`, `CONFIRM BUDGET <id>`, `CONFIRM RULE <name>`) must be typed by the user. Never invent or auto-fill them.
+- Confirmation phrases (`CONFIRM PAUSE <id>`, `CONFIRM DELETE <id>`, `CONFIRM BUDGET <id>`, `CONFIRM RULE <name>`) must be typed by the user. Never invent or auto-fill them.
 - `doctor` compares `src/` and `recipes/` against `config/src-checksums.json`. If it reports changed files, say so plainly; do not regenerate the checksums to make the warning go away.
+
+## Language (English and French)
+
+- Write ad copy, plans, reports and questions in the owner's language: French if they write in French, otherwise English. Keep Meta field names and IDs as they are.
+- The policy check has French word lists for every text rule, and French copy is detected as French. Run it on French text exactly as on English. A PASS means no known pattern matched, not that the ad is approved: keyword lists have gaps, so still read French copy against Meta's rules.
+- Other languages are only partly covered. If the check says a language was not checked, say so and ask the owner to review that text by hand.
 
 ## How to preview safely
 

@@ -132,6 +132,31 @@ Human levers have moved upstream: first-party signal quality, creative strategy 
 
 Andromeda does not remove accountability. It makes the input quality more consequential. A wide portfolio of misleading claims, duplicate videos, weak landing pages, or low-quality conversion signals gives the system more ways to find the wrong outcome. Broad targeting succeeds when the creative truthfully distinguishes the intended buyer and the event returns a reliable quality signal.
 
+## Optimizer review rules: bands, age gate, one change at a time
+
+Added 2026-10-06 from the Tenfold `/meta-ads-launch` review. Every rule below is **[practitioner-consensus]**, not **[meta-official]**. `docs/META-ADS-ASSESSMENT-2026-09-14.md` found no official support for a 20% increase ceiling, so the step size is a default, not a law. These rules shape the *proposals* the optimizer writes. They never authorise a live change: `src/optimization-planner.js` emits `proposal_only` items and a human approves each one.
+
+Enforcement status against `src/optimization-planner.js` at the time of writing:
+
+| Rule | Already enforced in code | Doctrine only (apply by hand, candidate for the planner) |
+| --- | --- | --- |
+| Complete days only | Yes (recent window must end before today in the account time zone) | |
+| No live mutation, proposals expire | Partly (`proposal_only`, `reviewAt` is 24h) | 48h expiry |
+| Tracking-broke guard | Partly (`measurement_unverified` blocks) | Zero-conversion-across-all-campaigns check |
+| CPA bands, age gate, one budget change per review, exact rollback, no-empty-campaign | No | All of them |
+
+1. **One north-star number: target CPA.** Band every campaign by `r = window CPA / target CPA`: **WIN** `r <= 1.0`; **CLOSE** `1.0 < r <= 1.3` (leave alone, do not tinker); **OFF** `1.3 < r <= 1.5`; **WAY_OFF** `r > 1.5`. A campaign with spend and zero conversions has no CPA, so judge it by spend against 2x target CPA instead. The target itself must be an approved number in `data/STRATEGY.md`; if it is unconfirmed, report bands as "unconfirmed" and propose nothing.
+2. **Complete days only.** Windows run through yesterday in the *account's* time zone, never today's partial day. Use 3d, 7d, 14d, 21d and life-of-campaign windows, and only the windows the campaign is old enough to fill. A 7d band on a 5-day-old campaign is a 5-day band and must say so.
+3. **Age gate.** A campaign aged 0 to 2 complete days gets health checks only: disapprovals, zero impressions after 24 hours, spend above 1.5x its daily budget. No budget, pause or creative proposal on a campaign under 3 days old, whatever the CPA looks like.
+4. **One budget change per campaign per review, at least 3 days apart.** Scale steps default to +20% and never past the account's daily cap (`META_ADS_MAX_DAILY_BUDGET_CENTS`). Never stack a bid change on a budget change (see the bidding ladder above).
+5. **Rollback restores the exact previous value.** Read the prior budget from the change history and propose that number. A "-20%" rollback after a "+20%" lands at 96% of the original (1.2 x 0.8), not 100%.
+6. **Never leave a campaign with zero active ads.** If a cut would empty the campaign, propose a pause of the campaign plus a request for new creatives instead. Pause, never delete.
+7. **Tracking-broke guard.** If every managed campaign shows 0 conversions for 2 complete days while still spending, and the same campaigns had conversions in the prior 7 days, suspect the pixel, the checkout or the domain, not the ads. Propose nothing that cuts spend. Report "check Events Manager and the checkout path" and stop. This sits above the band logic in the decision hierarchy below (data integrity wins).
+8. **Detect manual edits.** If a live budget differs from the last recorded state, treat it as a human change, record it as the most recent budget change (which restarts the 3-day clock in rule 4), and do not propose over it.
+9. **Log every run** to a per-run markdown file under `data/optimization/` and let proposals lapse after 48 hours; a stale proposal is re-derived from fresh data, not re-approved.
+
+Bands feed the existing kill rules; they do not replace them. A WAY_OFF campaign still has to clear the named kill rule above (3x spend, day-10 CPA, sustained 1.5-2x) before a pause is proposed.
+
 ## Weekly operating loop
 
 1. Run `node src/index.js dashboard last_30d`, `node src/index.js insights last_7d`, and `node src/index.js insights last_30d` from `agents/meta-ads`.

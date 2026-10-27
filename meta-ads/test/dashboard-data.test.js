@@ -14,6 +14,10 @@ const stub = path.join(__dirname, "fixtures/graph-api-stub.js");
 // Fixtures only: never read the agent's or the workspace's real .env (a live
 // writes flag or budget cap there would change what this test asserts).
 process.env.META_ADS_IGNORE_ENV_FILES = "1";
+// Nor the shell's: a member who exported the writes flag or a budget cap would
+// otherwise fail the self-test and have every self-update rolled back.
+delete process.env.META_ADS_WRITES_ENABLED;
+delete process.env.META_ADS_MAX_DAILY_BUDGET_CENTS;
 const data = require("../src/dashboard-data");
 
 const FAKE_TOKEN = "EAAfaketoken1234567890";

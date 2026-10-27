@@ -1,6 +1,6 @@
 {
   "name": "meta-ads-agent",
-  "version": "3.5.1",
+  "version": "3.7.1",
   "description": "Meta Ads agent - manages Facebook and Instagram advertising campaigns",
   "main": "src/index.js",
   "scripts": {
@@ -11,7 +11,6 @@
     "doctor": "node src/index.js doctor",
     "sync": "node src/index.js sync",
     "draft": "node src/index.js draft-campaign",
-    "optimize": "node bin/optimize.js",
     "test": "node --test test/*.test.js"
   },
   "dependencies": {

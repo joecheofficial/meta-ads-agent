@@ -1,0 +1,1210 @@
+{
+  "version": 2,
+  "written": "2026-10-12",
+  "about": "Non-English word lists for the Meta policy check. Patterns run on text that is NFKC-normalised with accents removed (so write 'depresion', not 'depresión'), case-insensitively, with Unicode-aware word boundaries: \\b here means a letter/number boundary in any script. Each list maps to a rule id in rules.json, which supplies the level, title, explanation, rewrite and source. Languages listed under 'unsupported' and scripts under 'scripts' are only detected so the check can say plainly that it did not check them.",
+  "commonWords": [
+    "a",
+    "an",
+    "at",
+    "in",
+    "be",
+    "by",
+    "as",
+    "up",
+    "no",
+    "so",
+    "per",
+    "off",
+    "di",
+    "de",
+    "la",
+    "le",
+    "el",
+    "il",
+    "en",
+    "e",
+    "o",
+    "y",
+    "ni",
+    "se",
+    "do",
+    "da",
+    "al"
+  ],
+  "languages": {
+    "en": {
+      "name": "English",
+      "lexicon": "rules.json",
+      "stopwords": [
+        "the",
+        "and",
+        "to",
+        "of",
+        "you",
+        "your",
+        "for",
+        "with",
+        "that",
+        "this",
+        "are",
+        "our",
+        "we",
+        "can",
+        "will",
+        "not",
+        "get",
+        "from",
+        "now",
+        "more",
+        "how",
+        "what",
+        "who",
+        "my",
+        "have",
+        "has",
+        "was",
+        "they",
+        "them",
+        "their",
+        "about",
+        "just",
+        "all",
+        "into",
+        "is",
+        "it",
+        "on",
+        "out",
+        "every",
+        "one",
+        "any",
+        "but",
+        "make",
+        "new",
+        "only",
+        "over",
+        "than",
+        "then",
+        "there",
+        "these",
+        "those",
+        "when",
+        "which",
+        "while",
+        "why",
+        "would",
+        "should",
+        "could",
+        "here",
+        "very",
+        "each",
+        "or",
+        "before",
+        "after",
+        "never"
+      ]
+    },
+    "es": {
+      "name": "Spanish",
+      "stopwords": [
+        "el",
+        "los",
+        "las",
+        "del",
+        "que",
+        "y",
+        "una",
+        "para",
+        "con",
+        "como",
+        "pero",
+        "este",
+        "esta",
+        "estos",
+        "tu",
+        "tus",
+        "usted",
+        "ustedes",
+        "muy",
+        "ya",
+        "hoy",
+        "nuestro",
+        "nuestra",
+        "puedes",
+        "tienes",
+        "eres",
+        "sin",
+        "cuando",
+        "ahora",
+        "tambien",
+        "desde",
+        "hasta",
+        "todo",
+        "nosotros",
+        "sufres",
+        "estas",
+        "hay",
+        "son",
+        "nuestros",
+        "nuestras",
+        "mejores",
+        "clases",
+        "curso"
+      ],
+      "subject": [
+        {
+          "pattern": "\\b(tu|tus|te|ti|usted|ustedes|eres|estas|tienes|sufres|padeces|vos|sos|tenes)\\b",
+          "flags": "i"
+        }
+      ],
+      "rules": {
+        "personal-attributes-health": [
+          "\\b(ansiedad|ansios[oa]s?|depresion|deprimid[oa]s?|diabetes|diabetic[oa]s?|sobrepeso|obesidad|obes[oa]s?|acne|cancer|dolor cronico|insomnio|adiccion|adict[oa]s?|calvicie|caida del (cabello|pelo)|ataques de panico|enfermedad mental|discapacidad|discapacitad[oa]s?|hipertension|presion alta|migranas?|disfuncion erectil|infertilidad|artritis|psoriasis|eccema|herpes|vih|tdah)\\b"
+        ],
+        "personal-attributes-finances": [
+          "\\b(deudas?|endeudad[oa]s?|mal credito|historial crediticio|bancarrota|en quiebra|sin dinero|sin trabajo|desemplead[oa]s?|en paro|bajos ingresos|no puedes pagar|no llegas a fin de mes)\\b"
+        ],
+        "personal-attributes-religion": [
+          "\\b(cristian[oa]s?|catolic[oa]s?|musulman(a|es|as)?|judi[oa]s?|hindues?|budistas?|evangelic[oa]s?|ateos?|ateas?)\\b"
+        ],
+        "personal-attributes-sexuality-gender": [
+          "\\b(gays?|lesbianas?|bisexuales|bisexual|transgenero|trans|no binari[oa]s?)\\b"
+        ],
+        "personal-attributes-race-ethnicity": [
+          "\\b(latin[oa]s?|hispan[oa]s?|indigenas?|afrodescendientes?|asiatic[oa]s?|gitan[oa]s?)\\b"
+        ],
+        "income-claims": [
+          "\\b((gana|ganar|genera|generar|ingresa|factura)\\s+(hasta\\s+|mas de\\s+)?(\\$|€|usd|eur)?\\s?\\d[\\d.,]*\\s*(k|mil)?\\s*(\\$|€|dolares|euros|usd|eur|pesos)?\\s*(al|por|cada|a la|/)\\s*(dia|semana|mes|ano|hora))\\b",
+          "\\b(ingresos pasivos|seis cifras|6 cifras|siete cifras|hazte rico|hacerte rico|dinero facil)\\b"
+        ],
+        "guaranteed-results": [
+          "(?<!(satisfaccion|devolucion|reembolso)\\s)\\b(garantizad[oa]s?)\\b",
+          "\\b(100\\s?% (efectivo|garantizado)|funciona siempre)\\b"
+        ],
+        "investment-returns": [
+          "\\b((rentabilidad|retornos?|ganancias|beneficios) garantizad[oa]s)\\b",
+          "\\b(\\d+([.,]\\d+)?\\s?% (de )?(rentabilidad|retorno|ganancias?|beneficios?)( (mensual|semanal|diari[oa]|anual))?)\\b",
+          "\\b(inversion sin riesgo)\\b"
+        ],
+        "cure-claims": [
+          "\\b((cura|curar|elimina|eliminar|revierte|revertir)\\s+(tu\\s+|la\\s+|el\\s+)?(diabetes|cancer|ansiedad|depresion|artritis|autismo|alzheimer|demencia|vih))\\b",
+          "\\b((cura|pastilla|tratamiento) milagros[oa])\\b"
+        ],
+        "before-after": [
+          "\\b(antes\\s*(y|&|/|-)\\s*despues)\\b"
+        ],
+        "weight-loss-claims": [
+          "\\b((pierde|perder|baja|bajar|elimina|quema|quemar)\\s+(hasta\\s+)?\\d+\\s*(kg|kilos?|libras|tallas))\\b",
+          "\\b(quema(r)? grasas?|quemagrasas|quemador de grasa)\\b"
+        ],
+        "negative-self-image": [
+          "\\b((odias|te averguenza|harta? de) (tu (cuerpo|barriga|cara|piel|peso)))\\b"
+        ],
+        "discriminatory-practices": [
+          "\\b((no se (admiten|aceptan)|no (admitimos|aceptamos|alquilamos a)|prohibido (a )?(los )?)\\s*(extranjeros|inmigrantes|negros|gitanos|musulmanes|judios|gays|homosexuales|latinos))\\b"
+        ],
+        "prohibited-tobacco-vape": [
+          "\\b(cigarrill[oa]s?|cigarros?|vapeadores?|vapers?|vapear|cigarrillos? electronicos?|nicotina|tabaco|cachimba)\\b"
+        ],
+        "prohibited-weapons": [
+          "\\b(armas? de fuego|pistolas?|rifles?|escopetas?|municion(es)?|explosivos?)\\b"
+        ],
+        "fake-ui-or-prize": [
+          "\\b(has ganado|felicidades,? (has|eres)|reclama tu premio|has sido seleccionad[oa])\\b"
+        ],
+        "prohibited-financial-products": [
+          "\\b(prestamos? (de dia de pago|rapidos?)|adelantos? de nomina|opciones binarias)\\b"
+        ]
+      }
+    },
+    "pt": {
+      "name": "Portuguese",
+      "stopwords": [
+        "do",
+        "da",
+        "dos",
+        "das",
+        "que",
+        "em",
+        "um",
+        "uma",
+        "para",
+        "com",
+        "nao",
+        "no",
+        "na",
+        "mais",
+        "seu",
+        "sua",
+        "voce",
+        "voces",
+        "isso",
+        "como",
+        "mas",
+        "muito",
+        "ja",
+        "hoje",
+        "nosso",
+        "nossa",
+        "pode",
+        "tem",
+        "sem",
+        "quando",
+        "agora",
+        "tambem",
+        "ate",
+        "nos",
+        "suas",
+        "seus",
+        "sao",
+        "estao",
+        "aqui",
+        "aulas",
+        "curso"
+      ],
+      "subject": [
+        {
+          "pattern": "\\b(voce|voces|vc|seu|sua|seus|suas|te|tu|teu|tua|teus|tuas)\\b",
+          "flags": "i"
+        }
+      ],
+      "rules": {
+        "personal-attributes-health": [
+          "\\b(ansiedade|ansios[oa]s?|depressao|deprimid[oa]s?|diabetes|diabetic[oa]s?|sobrepeso|obesidade|obes[oa]s?|acne|cancer|dor cronica|insonia|vicio|viciad[oa]s?|calvicie|queda de cabelo|ataques? de panico|doenca mental|deficiencia|deficiente|hipertensao|pressao alta|enxaquecas?|disfuncao eretil|infertilidade|artrite|psoriase|eczema|herpes|hiv|tdah)\\b"
+        ],
+        "personal-attributes-finances": [
+          "\\b(dividas?|endividad[oa]s?|nome sujo|credito ruim|score baixo|falid[oa]s?|falencia|sem dinheiro|desempregad[oa]s?|baixa renda|nao consegue pagar|contas atrasadas)\\b"
+        ],
+        "personal-attributes-religion": [
+          "\\b(crist[aã]os?|crist[aã]s?|catolic[oa]s?|muculman[oa]s?|judeus?|judias?|evangelic[oa]s?|budistas?|ateus?|ateias?)\\b"
+        ],
+        "personal-attributes-sexuality-gender": [
+          "\\b(gays?|lesbicas?|bissexuais|bissexual|transgenero|trans|nao binari[oa]s?)\\b"
+        ],
+        "personal-attributes-race-ethnicity": [
+          "\\b(afrodescendentes?|indigenas?|asiatic[oa]s?|latin[oa]s?|ciganos?)\\b"
+        ],
+        "income-claims": [
+          "\\b((ganhe|ganhar|fature|faturar|lucre|lucrar)\\s+(ate\\s+|mais de\\s+)?(r\\$|\\$|€|usd)?\\s?\\d[\\d.,]*\\s*(k|mil)?\\s*(reais|dolares|euros)?\\s*(por|ao|a cada|/)\\s*(dia|semana|mes|ano|hora))\\b",
+          "\\b(renda passiva|seis digitos|6 digitos|sete digitos|fique rico|ficar rico|dinheiro facil)\\b"
+        ],
+        "guaranteed-results": [
+          "(?<!(satisfacao|devolucao|reembolso)\\s)\\b(garantid[oa]s?)\\b",
+          "\\b(100\\s?% (eficaz|garantido)|funciona sempre)\\b"
+        ],
+        "investment-returns": [
+          "\\b((retornos?|rendimentos?|lucros?) garantid[oa]s)\\b",
+          "\\b(\\d+([.,]\\d+)?\\s?% (de )?(retorno|rendimento|lucro)( (mensal|semanal|diario|anual|ao mes))?)\\b",
+          "\\b(investimento sem risco)\\b"
+        ],
+        "cure-claims": [
+          "\\b((cura|curar|elimina|eliminar|reverte|reverter)\\s+(a\\s+|o\\s+|sua\\s+|seu\\s+)?(diabetes|cancer|ansiedade|depressao|artrite|autismo|alzheimer|demencia|hiv))\\b",
+          "\\b((cura|pilula|tratamento) milagros[oa])\\b"
+        ],
+        "before-after": [
+          "\\b(antes\\s*(e|&|/|-)\\s*depois)\\b"
+        ],
+        "weight-loss-claims": [
+          "\\b((perca|perder|elimine|eliminar|queime|queimar|seque|secar)\\s+(ate\\s+)?\\d+\\s*(kg|quilos?|kilos?|libras))\\b",
+          "\\b(queim(a|e|ar) gordura|queimador de gordura|seca barriga)\\b"
+        ],
+        "negative-self-image": [
+          "\\b((odeia|vergonha d[oa]|cansad[oa] de) (seu|sua) (corpo|barriga|rosto|pele|peso))\\b"
+        ],
+        "discriminatory-practices": [
+          "\\b((nao (aceitamos|atendemos|alugamos para)|proibida a entrada de)\\s+(estrangeiros|imigrantes|negros|gays|muculmanos|judeus|ciganos|nordestinos))\\b"
+        ],
+        "prohibited-tobacco-vape": [
+          "\\b(cigarros?|charutos?|vapes?|vaper|cigarros? eletronicos?|pod descartavel|nicotina|tabaco|narguile)\\b"
+        ],
+        "prohibited-weapons": [
+          "\\b(armas? de fogo|pistolas?|rifles?|espingardas?|municao|municoes|explosivos?)\\b"
+        ],
+        "fake-ui-or-prize": [
+          "\\b(voce ganhou|parabens,? voce|resgate seu premio|voce foi selecionad[oa])\\b"
+        ],
+        "prohibited-financial-products": [
+          "\\b(emprestimos? rapidos?|adiantamento salarial|opcoes binarias)\\b"
+        ]
+      }
+    },
+    "fr": {
+      "name": "French",
+      "stopwords": [
+        "le",
+        "les",
+        "des",
+        "du",
+        "et",
+        "est",
+        "pour",
+        "avec",
+        "pas",
+        "que",
+        "qui",
+        "dans",
+        "sur",
+        "au",
+        "aux",
+        "vous",
+        "votre",
+        "vos",
+        "ce",
+        "cette",
+        "ne",
+        "plus",
+        "nous",
+        "une",
+        "sont",
+        "tout",
+        "aussi",
+        "maintenant",
+        "sans",
+        "cours",
+        "atelier",
+        "tu",
+        "toi",
+        "ton",
+        "ta",
+        "tes",
+        "mon",
+        "ma",
+        "mes",
+        "nos",
+        "notre",
+        "chez",
+        "ici",
+        "je",
+        "moi",
+        "il",
+        "elle",
+        "ils",
+        "elles",
+        "ces",
+        "cet",
+        "quoi",
+        "etre",
+        "avoir",
+        "fait",
+        "faire",
+        "tres",
+        "mais",
+        "donc",
+        "car",
+        "comme",
+        "tous",
+        "toute",
+        "toutes",
+        "sous",
+        "par",
+        "deja",
+        "encore",
+        "toujours",
+        "jamais",
+        "rien",
+        "leur",
+        "leurs",
+        "ceux",
+        "celle",
+        "celles",
+        "sa",
+        "ses",
+        "voici",
+        "voila",
+        "en",
+        "es"
+      ],
+      "subject": [
+        {
+          "pattern": "\\b(vous|votre|vos|tu|ta|tes|toi|etes|avez|souffrez)\\b",
+          "flags": "i"
+        }
+      ],
+      "rules": {
+        "personal-attributes-health": [
+          "\\b(anxiete|anxieu(x|se|ses)|depression|deprime(e|s|es)?|diabete|diabetiques?|surpoids|obesite|obeses?|acne|cancer|douleurs? chroniques?|insomnie|addiction|dependance|calvitie|perte de cheveux|crises? de panique|maladie mentale|handicap|handicape(e|s|es)?|hypertension|migraines?|dysfonction erectile|troubles? de l'?erection|infertilite|arthrite|psoriasis|eczema|herpes|vih|tdah)\\b"
+        ],
+        "personal-attributes-finances": [
+          "\\b(dettes?|endette(e|s|es)?|surendette(e|s|es)?|fiche(e)? a la banque de france|interdit bancaire|mauvais credit|en faillite|faillite|fauche(e|s|es)?|sans emploi|au chomage|chomeur|chomeuse|faibles revenus|fins de mois difficiles)\\b"
+        ],
+        "personal-attributes-religion": [
+          "\\b(chretien(ne)?s?|catholiques?|musulman(e)?s?|juif|juive|juifs|juives|hindous?|bouddhistes?|evangeliques?|athees?)\\b"
+        ],
+        "personal-attributes-sexuality-gender": [
+          "\\b(gays?|lesbiennes?|bisexuel(le)?s?|transgenres?|trans|non[- ]binaires?)\\b"
+        ],
+        "personal-attributes-race-ethnicity": [
+          "\\b(africain(e)?s?|maghrebin(e)?s?|arabes?|asiatiques?|antillais(e)?s?|roms?)\\b"
+        ],
+        "income-claims": [
+          "\\b((gagnez|gagner|generez|generer|encaissez)\\s+(jusqu'?a\\s+|plus de\\s+)?(\\$|€)?\\s?\\d+(?:[ .,]\\d+)*\\s?(k)?\\s?(€|euros|dollars|\\$)?\\s?(par|chaque|/)\\s*(jour|semaine|mois|an|annee|heure))\\b",
+          "\\b(revenus? passifs?|six chiffres|6 chiffres|sept chiffres|devenez riche|devenir riche|argent facile)\\b"
+        ],
+        "guaranteed-results": [
+          "\\b((resultats?|succes|reussite|gains?|revenus?|perte de poids|efficacite) garanti(e|s|es)?)\\b",
+          "\\b(100\\s?% (garanti(e|s|es)?|efficace)|garanti(e|s|es)? a 100\\s?%|marche a tous les coups)\\b"
+        ],
+        "investment-returns": [
+          "\\b(rendements? garantis)\\b",
+          "\\b(\\d+([.,]\\d+)?\\s?% (de )?(rendement|retour sur investissement)( (mensuel|hebdomadaire|quotidien|annuel|par mois))?)\\b",
+          "\\b(investissement sans risque|placement sans risque)\\b"
+        ],
+        "cure-claims": [
+          "\\b((guerit|guerir|elimine|eliminer|inverse|inverser)\\s+(votre\\s+|ton\\s+|le\\s+|la\\s+|l')?(diabete|cancer|anxiete|depression|arthrite|autisme|alzheimer|demence|vih))\\b",
+          "\\b((remede|pilule|traitement) miracle)\\b"
+        ],
+        "before-after": [
+          "\\b(avant\\s*(et|&|/|-)\\s*apres)\\b"
+        ],
+        "weight-loss-claims": [
+          "\\b((perdez|perdre|eliminez|eliminer|brulez|bruler)\\s+(jusqu'?a\\s+)?\\d+\\s*(kg|kilos?|livres|tailles?))\\b",
+          "\\b(brule[- ]graisses?|bruler (les |la )?graisses?|brulez (les |la )?graisses?)\\b"
+        ],
+        "negative-self-image": [
+          "\\b((detestez|honte de|marre de) (votre|ton|ta) (corps|ventre|visage|peau|poids))\\b"
+        ],
+        "discriminatory-practices": [
+          "\\b((pas de|interdit aux|nous n'acceptons pas les|refuse aux)\\s+(etrangers|immigres|noirs|arabes|musulmans|juifs|gays|homosexuels|roms))\\b"
+        ],
+        "prohibited-tobacco-vape": [
+          "\\b(cigarettes?|cigares?|vapoteuses?|vape|vapoter|cigarettes? electroniques?|nicotine|tabac|chicha)\\b"
+        ],
+        "prohibited-weapons": [
+          "\\b(armes? a feu|pistolets?|fusils?|carabines?|munitions?|explosifs?)\\b"
+        ],
+        "fake-ui-or-prize": [
+          "\\b(vous avez gagne|tu as gagne|felicitations,? (vous|tu)|reclamez votre (prix|cadeau|lot)|vous avez ete selectionne(e)?)\\b"
+        ],
+        "prohibited-financial-products": [
+          "\\b(pret sur salaire|avance sur salaire|credit rapide sans justificatif|options binaires)\\b"
+        ],
+        "personal-attributes-age": [
+          "\\b(plus de (40|50|60|65|70) ans|moins de (18|21|25|30) ans|apres (40|50|60) ans|(quadra|quinqua|sexa)genaires?|seniors?|a la retraite|jeunes retraites|adolescente?s?|ados|millennials?|boomers?|la (quarantaine|cinquantaine|soixantaine))\\b"
+        ],
+        "personal-attributes-criminal-record": [
+          "\\b(casier judiciaire|condamne(e|s|es)? (a|pour)|condamnations? penales?|anciens? detenue?s?|ex-detenue?s?|en prison|sortie? de prison|liberte conditionnelle|arrete(e|s|es)? par la police|garde a vue)\\b"
+        ],
+        "fast-results-claim": [
+          "\\b(en (seulement|a peine|moins de) \\d+ (jours?|heures?|semaines?|minutes?)|en \\d+ (jours?|semaines?) (seulement|chrono|top chrono)|du jour au lendemain|en un rien de temps|en un temps record)\\b"
+        ],
+        "false-urgency": [
+          "\\b(depechez-vous|depeche-toi|agissez (maintenant|vite)|derniere chance|offre limitee|duree limitee|temps limite|se termine (ce soir|aujourd['’]hui|a minuit|bientot)|plus que \\d+ (places?|exemplaires?)|il ne reste (que|plus que) \\d+|places? (limitees|partent vite)|avant qu['’]il ne soit trop tard|ne (le |la )?(ratez|manquez) pas|aujourd['’]hui seulement|jusqu['’]a epuisement des stocks|expire (ce soir|aujourd['’]hui|dans \\d+ (heures?|minutes?)))\\b"
+        ],
+        "sensational-clickbait": [
+          "\\b(vous n['’]allez pas (le )?croire|tu ne vas pas (le )?croire|incroyable mais vrai|choquante?s?|les medecins (le |la )?detestent|une astuce (simple|etrange|bizarre)|ce qu['’]ils ne veulent pas que (vous sachiez|tu saches)|la suite va (vous|te) surprendre|ca change tout)\\b"
+        ],
+        "unsubstantiated-claims": [
+          "(n ?°\\s?1\\b|\\bnumero (un|1)\\b|\\ble meilleur (du monde|de france|du marche)\\b|\\bcliniquement (prouve|teste)(e|s|es)?\\b|\\bscientifiquement prouve(e|s|es)?\\b|\\brecommande(e|s|es)? par les medecins\\b|\\bsans effets? secondaires?\\b|\\b100 ?% (sur|sans danger|naturel(le)?s?)\\b)"
+        ],
+        "profanity": [
+          "\\b(putain|merde|connard|connasse|salope|encule|enfoire|bordel|niquer?|ta gueule|fils de pute|chier)\\b"
+        ],
+        "lead-sensitive-data": [
+          "\\b(numero de securite sociale|numero de passeport|coordonnees bancaires|releve d['’]identite bancaire|iban|numero de carte (bancaire|de credit)|mot de passe|code pin|code secret|antecedents medicaux|dossier medical|casier judiciaire)\\b"
+        ],
+        "crisis-exploitation": [
+          "\\b(pandemie|covid(-19)?|coronavirus|confinement|tremblement de terre|seisme|ouragan|feux de foret|guerre en \\w+|tragedie)\\b"
+        ],
+        "restricted-supplements": [
+          "\\b(complements? alimentaires?|gelules?|capsules?|pilules? (minceur|amaigrissantes?)|coupe-faim|detox|brule-graisses?|booster de testosterone|gummies)\\b"
+        ],
+        "restricted-alcohol": [
+          "\\b(bieres?|vins?|vodka|whisky|gin|rhum|tequila|cocktails?|alcool|spiritueux|vignoble|apero|aperitif|champagne)\\b"
+        ],
+        "restricted-dating": [
+          "\\b(rencontres? (en ligne|amoureuses?|serieuses?)|celibataires (pres de|de (votre|ta) region)|sites? de rencontres?|trouve(r|z)? (l['’]ame soeur|ton partenaire|votre partenaire|un partenaire))\\b"
+        ],
+        "restricted-gambling": [
+          "\\b(casino|paris sportifs?|pariez|parier|poker|machines? a sous|jackpot|loterie|loto|jeux d['’]argent)\\b"
+        ],
+        "restricted-crypto": [
+          "\\b(cryptomonnaies?|crypto-monnaies?|cryptos?|bitcoin|btc|ethereum|nfts?|altcoins?|vente de tokens|finance decentralisee|forex|trading de devises)\\b"
+        ],
+        "restricted-pharma": [
+          "\\b(sur ordonnance|pharmacie|ozempic|wegovy|semaglutide|tirzepatide|viagra|cialis|cbd|cannabis|marijuana|thc|kratom|centre de desintoxication|cure de desintoxication)\\b"
+        ]
+      }
+    },
+    "de": {
+      "name": "German",
+      "stopwords": [
+        "der",
+        "die",
+        "das",
+        "und",
+        "ist",
+        "nicht",
+        "ein",
+        "eine",
+        "mit",
+        "fur",
+        "auf",
+        "den",
+        "dem",
+        "des",
+        "zu",
+        "im",
+        "ich",
+        "du",
+        "wir",
+        "von",
+        "bei",
+        "auch",
+        "noch",
+        "nur",
+        "jetzt",
+        "dein",
+        "deine",
+        "ihr",
+        "ihre",
+        "sind",
+        "oder",
+        "wie",
+        "kann",
+        "sie",
+        "haben",
+        "ihnen",
+        "unser",
+        "unsere",
+        "uns",
+        "bitte"
+      ],
+      "subject": [
+        {
+          "pattern": "\\b(du|dich|dir|dein|deine|deinen|deinem|deiner|deines|bist|hast|leidest)\\b",
+          "flags": "i"
+        },
+        {
+          "pattern": "\\b(Sie|Ihr|Ihre|Ihren|Ihrem|Ihrer|Ihres|Ihnen)\\b",
+          "flags": ""
+        }
+      ],
+      "rules": {
+        "personal-attributes-health": [
+          "\\b(angststorung(en)?|angstzustande|depression(en)?|depressiv|diabetes|diabetiker(in)?|ubergewicht(ig)?|fettleibig(keit)?|adipositas|akne|krebs|chronische(n)? schmerzen|schlaflosigkeit|schlafstorungen|suchtig|suchtkrank|haarausfall|glatze|panikattacken|psychische erkrankung|behinderung|behindert|bluthochdruck|migrane|erektionsstorung(en)?|potenzprobleme|unfruchtbar(keit)?|arthritis|schuppenflechte|psoriasis|neurodermitis|ekzem|herpes|hiv|adhs)\\b"
+        ],
+        "personal-attributes-finances": [
+          "\\b(schulden|verschuldet|uberschuldet|schufa[- ]eintrag|schlechte bonitat|pleite|insolvenz|insolvent|bankrott|arbeitslos|ohne job|geringes einkommen|rechnungen nicht (mehr )?bezahlen)\\b"
+        ],
+        "personal-attributes-religion": [
+          "\\b(christ(en|in)?|katholik(en|in)?|katholisch|muslim(e|in|a)?|muslimisch|jude|juden|judin|judisch|hindus?|buddhist(en|in)?|evangelikal(e)?|atheist(en|in)?)\\b"
+        ],
+        "personal-attributes-sexuality-gender": [
+          "\\b(schwul(e|er)?|lesbisch(e)?|lesbe|bisexuell(e)?|transgender|trans|nicht[- ]binar)\\b"
+        ],
+        "personal-attributes-race-ethnicity": [
+          "\\b(schwarze (menschen|frauen|manner)|afrikaner(in)?|asiat(en|in)?|araber(in)?|turk(en|in)|turkischstammig|roma|sinti|migrationshintergrund)\\b"
+        ],
+        "income-claims": [
+          "\\b((verdiene|verdienen|verdienst|generiere|generieren)\\s+(bis zu\\s+|uber\\s+)?(\\$|€)?\\s?\\d[\\d.,]*\\s*(k|tsd\\.?)?\\s*(€|euro|dollar|\\$)?\\s*(pro|im|am|jeden|jede|/)\\s*(tag|woche|monat|jahr|stunde))\\b",
+          "\\b(passives einkommen|sechsstellig(e|en|es)?|siebenstellig(e|en|es)?|schnell reich|reich werden|leicht verdientes geld)\\b"
+        ],
+        "guaranteed-results": [
+          "(?<!(zufriedenheit|geld[- ]zuruck|ruckgabe)\\s)\\b(garantiert(e|en|er|es)?|erfolgsgarantie)\\b",
+          "\\b(100\\s?% (erfolg|wirksam|garantiert)|funktioniert immer)\\b"
+        ],
+        "investment-returns": [
+          "\\b(garantierte (rendite|gewinne?|ertrage))\\b",
+          "\\b(\\d+([.,]\\d+)?\\s?% (monatliche |wochentliche |tagliche |jahrliche )?(rendite|gewinn))\\b",
+          "\\b(risikolose (investition|anlage|rendite)|ohne risiko investieren)\\b"
+        ],
+        "cure-claims": [
+          "\\b((heilt|heilen|beseitigt|besiegt)\\s+(deine?n?\\s+|ihre?n?\\s+|den\\s+|die\\s+)?(diabetes|krebs|angststorung(en)?|depression(en)?|arthritis|autismus|alzheimer|demenz|hiv))\\b",
+          "\\b(wunder(mittel|pille|heilung|kur))\\b"
+        ],
+        "before-after": [
+          "\\b(vorher\\s*(und|&|/|-)\\s*nachher)\\b"
+        ],
+        "weight-loss-claims": [
+          "\\b((verliere|verlieren|verlierst|nimm|nehmen sie|abnehmen)\\s+(bis zu\\s+)?\\d+\\s*(kg|kilo|pfund|kleidergrossen?))\\b",
+          "\\b(\\d+\\s*(kg|kilo) abnehmen|fettverbrennung|fettverbrenner|fettkiller|bauchfett (weg|verbrennen))\\b"
+        ],
+        "negative-self-image": [
+          "\\b((hasst du|schamst du dich fur|satt,?) (deinen?|deine) (korper|bauch|gesicht|haut|gewicht))\\b"
+        ],
+        "discriminatory-practices": [
+          "\\b((keine|nicht fur|kein zutritt fur)\\s+(auslander|migranten|fluchtlinge|schwarze|muslime|juden|schwule|turken|roma))\\b"
+        ],
+        "prohibited-tobacco-vape": [
+          "\\b(zigaretten?|zigarren?|e-zigaretten?|vapes?|vapen|e-liquids?|nikotin|tabak|shisha)\\b"
+        ],
+        "prohibited-weapons": [
+          "\\b(schusswaffen?|pistolen?|gewehre?|munition|sprengstoff)\\b"
+        ],
+        "fake-ui-or-prize": [
+          "\\b(sie haben gewonnen|du hast gewonnen|herzlichen gluckwunsch,? (sie|du)|fordern sie ihren (preis|gewinn) an|hol dir deinen (preis|gewinn)|sie wurden ausgewahlt|du wurdest ausgewahlt)\\b"
+        ],
+        "prohibited-financial-products": [
+          "\\b(zahltagdarlehen|kurzzeitkredite?|sofortkredit ohne schufa|binare optionen)\\b"
+        ]
+      }
+    },
+    "it": {
+      "name": "Italian",
+      "stopwords": [
+        "il",
+        "gli",
+        "di",
+        "del",
+        "della",
+        "che",
+        "per",
+        "con",
+        "non",
+        "sono",
+        "sei",
+        "un",
+        "una",
+        "alla",
+        "tu",
+        "tuo",
+        "tua",
+        "ti",
+        "piu",
+        "anche",
+        "questo",
+        "questa",
+        "ma",
+        "ora",
+        "nostro",
+        "nostra",
+        "puoi",
+        "hai",
+        "senza",
+        "quando",
+        "ogni",
+        "ed",
+        "nel",
+        "nella",
+        "sul",
+        "dal",
+        "dei",
+        "delle",
+        "molto",
+        "offerta",
+        "vicino",
+        "corso",
+        "lezioni"
+      ],
+      "subject": [
+        {
+          "pattern": "\\b(tu|ti|te|tuo|tua|tuoi|tue|sei|hai|soffri|voi|vostro|vostra|vostri|vostre)\\b",
+          "flags": "i"
+        }
+      ],
+      "rules": {
+        "personal-attributes-health": [
+          "\\b(ansia|ansios[oaie]|depressione|depress[oaie]|diabete|diabetic[oaie]|diabetici|sovrappeso|obesita|obes[oaie]|acne|cancro|tumore|dolore cronico|insonnia|dipendenza|calvizie|caduta dei capelli|attacchi di panico|malattia mentale|disabilita|disabil[ei]|ipertensione|pressione alta|emicrania|disfunzione erettile|infertilita|artrite|psoriasi|eczema|herpes|hiv|adhd)\\b"
+        ],
+        "personal-attributes-finances": [
+          "\\b(debiti|indebitat[oaie]|cattivo pagatore|protestat[oaie]|segnalat[oaie] in crif|fallit[oaie]|bancarotta|al verde|disoccupat[oaie]|senza lavoro|basso reddito|non riesci a pagare|arrivare a fine mese)\\b"
+        ],
+        "personal-attributes-religion": [
+          "\\b(cristian[oaie]|cattolic[oaie]|cattolici|musulman[oaie]|ebre[oaie]|ebrei|indu|buddist[aie]|evangelic[oaie]|ate[oaie]|atei)\\b"
+        ],
+        "personal-attributes-sexuality-gender": [
+          "\\b(gay|lesbic(a|he)|bisessual[ei]|transgender|trans|non binari[oa])\\b"
+        ],
+        "personal-attributes-race-ethnicity": [
+          "\\b(african[oaie]|asiatic[oaie]|asiatici|arab[oaie]|rom|zingar[oaie]|extracomunitari[oe]?)\\b"
+        ],
+        "income-claims": [
+          "\\b((guadagna|guadagnare|genera|generare|incassa)\\s+(fino a\\s+|oltre\\s+)?(\\$|€)?\\s?\\d[\\d.,]*\\s*(k|mila)?\\s*(€|euro|dollari|\\$)?\\s*(al|a|ogni|per|/)\\s*(giorno|settimana|mese|anno|ora))\\b",
+          "\\b(reddito passivo|entrate passive|sei cifre|6 cifre|sette cifre|diventa ricco|diventare ricco|soldi facili)\\b"
+        ],
+        "guaranteed-results": [
+          "(?<!(soddisfazione|rimborso)\\s)\\b(garantit[oaie])\\b",
+          "\\b(100\\s?% (efficace|garantito)|funziona sempre)\\b"
+        ],
+        "investment-returns": [
+          "\\b((rendimenti|profitti|guadagni|ritorni) garantiti)\\b",
+          "\\b(\\d+([.,]\\d+)?\\s?% (di )?(rendimento|profitto|ritorno)( (mensile|settimanale|giornaliero|annuo|annuale))?)\\b",
+          "\\b(investimento senza rischi?)\\b"
+        ],
+        "cure-claims": [
+          "\\b((cura|curare|guarisce|guarire|elimina|eliminare|sconfigge)\\s+(il\\s+|la\\s+|l'|tuo\\s+|tua\\s+)?(diabete|cancro|ansia|depressione|artrite|autismo|alzheimer|demenza|hiv))\\b",
+          "\\b((cura|pillola|rimedio) miracolos[oa])\\b"
+        ],
+        "before-after": [
+          "\\b(prima\\s*(e|&|/|-)\\s*dopo)\\b"
+        ],
+        "weight-loss-claims": [
+          "\\b((perdi|perdere|brucia|bruciare|elimina)\\s+(fino a\\s+)?\\d+\\s*(kg|chili|chilo|kili|taglie))\\b",
+          "\\b(brucia(re)? (i )?grassi|bruciagrassi)\\b"
+        ],
+        "negative-self-image": [
+          "\\b((odi|ti vergogni del|stanc[oa] del) (tuo|tua) (corpo|pancia|viso|pelle|peso))\\b"
+        ],
+        "discriminatory-practices": [
+          "\\b((non (accettiamo|affittiamo a)|vietato (l'ingresso )?agli?)\\s+(stranieri|immigrati|neri|musulmani|ebrei|gay|rom|extracomunitari))\\b"
+        ],
+        "prohibited-tobacco-vape": [
+          "\\b(sigarett[ae]|sigar[oi]|svapo|svapare|sigarett[ae] elettronich?[ae]|nicotina|tabacco|narghile)\\b"
+        ],
+        "prohibited-weapons": [
+          "\\b(armi da fuoco|arma da fuoco|pistol[ae]|fucil[ei]|munizioni|esplosiv[oi])\\b"
+        ],
+        "fake-ui-or-prize": [
+          "\\b(hai vinto|congratulazioni,? (hai|sei)|riscatta il tuo premio|sei stat[oa] selezionat[oa])\\b"
+        ],
+        "prohibited-financial-products": [
+          "\\b(prestiti? (rapidi|veloci|lampo)|anticipo (sullo|dello) stipendio|opzioni binarie)\\b"
+        ]
+      }
+    },
+    "nl": {
+      "name": "Dutch",
+      "stopwords": [
+        "het",
+        "een",
+        "en",
+        "van",
+        "dat",
+        "niet",
+        "je",
+        "jij",
+        "jouw",
+        "uw",
+        "op",
+        "met",
+        "voor",
+        "zijn",
+        "er",
+        "maar",
+        "ook",
+        "nu",
+        "wij",
+        "bij",
+        "ons",
+        "onze",
+        "kun",
+        "kunt",
+        "heb",
+        "hebt",
+        "zonder",
+        "wordt",
+        "geen",
+        "naar",
+        "hier",
+        "deze",
+        "dit",
+        "wat",
+        "als",
+        "cursus",
+        "lessen"
+      ],
+      "subject": [
+        {
+          "pattern": "\\b(jij|jou|jouw|uw|(heb|ben|wil|kun|zit|voel|lijd|word) je|je (hebt|bent|wilt|kunt|zit|voelt|lijdt|worstelt|wordt)|(heeft|bent|wilt|kunt|hebt) u|u (hebt|heeft|bent|wilt|kunt|lijdt))\\b",
+          "flags": "i"
+        }
+      ],
+      "rules": {
+        "personal-attributes-health": [
+          "\\b(angststoornis(sen)?|angstig|depressie|depressief|diabetes|diabetisch|overgewicht|zwaarlijvig(heid)?|obesitas|acne|puistjes|kanker|chronische pijn|slapeloosheid|verslaving|verslaafd|haaruitval|kaalheid|paniekaanvallen|psychische (ziekte|aandoening)|handicap|gehandicapt|hoge bloeddruk|migraine|erectieproblemen|erectiestoornis|onvruchtbaar(heid)?|artritis|artrose|psoriasis|eczeem|herpes|hiv|adhd)\\b"
+        ],
+        "personal-attributes-finances": [
+          "\\b(schulden|schuldsanering|bkr[- ]registratie|slecht krediet|failliet|faillissement|blut|werkloos|zonder baan|laag inkomen|rekeningen niet (meer )?betalen|krap bij kas)\\b"
+        ],
+        "personal-attributes-religion": [
+          "\\b(christen(en)?|christelijk|katholiek(en)?|moslim(s)?|islamitisch|joods|joden|hindoes?|boeddhist(en)?|evangelisch|atheist(en)?)\\b"
+        ],
+        "personal-attributes-sexuality-gender": [
+          "\\b(homo(s|'s)?|lesbisch(e)?|lesbienne(s)?|biseksueel|transgender|trans|non[- ]binair)\\b"
+        ],
+        "personal-attributes-race-ethnicity": [
+          "\\b(zwarte (mensen|vrouwen|mannen)|marokkanen|turken|surinamers|antillianen|aziaten|arabieren|allochtonen|migratieachtergrond)\\b"
+        ],
+        "income-claims": [
+          "\\b((verdien|verdienen|genereer|genereren)\\s+(tot\\s+|meer dan\\s+|ruim\\s+)?(\\$|€)?\\s?\\d[\\d.,]*\\s*(k|duizend)?\\s*(€|euro|dollar|\\$)?\\s*(per|elke|iedere|/|in de|op een)\\s*(dag|week|maand|jaar|uur))\\b",
+          "\\b(passief inkomen|zes cijfers|zescijferig|6 cijfers|zeven cijfers|snel rijk|rijk worden|makkelijk geld)\\b"
+        ],
+        "guaranteed-results": [
+          "(?<!(geld[- ]terug|tevredenheid)\\s)\\b(gegarandeerd(e)?)\\b",
+          "\\b(100\\s?% (succes|resultaat|effectief)|werkt altijd)\\b"
+        ],
+        "investment-returns": [
+          "\\b(gegarandeerd(e)? (rendement|winst|opbrengst))\\b",
+          "\\b(\\d+([.,]\\d+)?\\s?% (maandelijks |wekelijks |dagelijks |jaarlijks )?(rendement|winst))\\b",
+          "\\b((risicoloos|zonder risico) (beleggen|investeren|rendement))\\b"
+        ],
+        "cure-claims": [
+          "\\b((geneest|genezen|elimineert|verhelpt)\\s+(je\\s+|uw\\s+|de\\s+)?(diabetes|kanker|angststoornis(sen)?|depressie|artritis|autisme|alzheimer|dementie|hiv))\\b",
+          "\\b(wonder(middel|pil|kuur|genezing))\\b"
+        ],
+        "before-after": [
+          "\\b(voor\\s*(en|&|/|-)\\s*na)\\b"
+        ],
+        "weight-loss-claims": [
+          "\\b((verlies|verliezen|val|verbrand|verbranden)\\s+(tot\\s+)?\\d+\\s*(kg|kilo|pond|kledingmaten|maten))\\b",
+          "\\b(\\d+\\s*(kg|kilo) afvallen|vetverbrander|vetverbranding|buikvet (weg|verbranden))\\b"
+        ],
+        "negative-self-image": [
+          "\\b((haat je|schaam je je voor|baal je van) (je|jouw) (lichaam|buik|gezicht|huid|gewicht))\\b"
+        ],
+        "discriminatory-practices": [
+          "\\b((geen|niet voor)\\s+(buitenlanders|allochtonen|migranten|vluchtelingen|zwarten|moslims|joden|homo's|homos|marokkanen|polen|turken))\\b"
+        ],
+        "prohibited-tobacco-vape": [
+          "\\b(sigaretten|sigaret|sigaren|e-sigaret(ten)?|vapes?|vapen|nicotine|tabak|waterpijp|shisha)\\b"
+        ],
+        "prohibited-weapons": [
+          "\\b(vuurwapens?|pistolen|pistool|geweren|geweer|munitie|explosieven)\\b"
+        ],
+        "fake-ui-or-prize": [
+          "\\b(je hebt gewonnen|u heeft gewonnen|gefeliciteerd,? (je|u) (hebt|heeft|bent)|claim (je|uw) (prijs|beloning)|je bent geselecteerd|u bent geselecteerd)\\b"
+        ],
+        "prohibited-financial-products": [
+          "\\b(flitskrediet(en)?|flitslening(en)?|binaire opties|voorschot op (je|uw) salaris)\\b"
+        ]
+      }
+    },
+    "id": {
+      "name": "Indonesian",
+      "stopwords": [
+        "yang",
+        "dan",
+        "ke",
+        "dari",
+        "ini",
+        "itu",
+        "untuk",
+        "dengan",
+        "tidak",
+        "ada",
+        "akan",
+        "bisa",
+        "kamu",
+        "anda",
+        "kami",
+        "kita",
+        "saya",
+        "juga",
+        "atau",
+        "sudah",
+        "lagi",
+        "karena",
+        "jadi",
+        "sekarang",
+        "sangat",
+        "agar",
+        "dalam",
+        "hanya",
+        "mau",
+        "bulan",
+        "juta",
+        "ribu",
+        "setiap",
+        "hingga",
+        "sampai",
+        "banyak",
+        "lebih",
+        "cara",
+        "kelas",
+        "pemula"
+      ],
+      "subject": [
+        {
+          "pattern": "\\b(kamu|anda|kau|engkau|lu|loe|elo|kalian|dirimu|tubuhmu|badanmu|kulitmu|wajahmu|hidupmu|keuanganmu|utangmu|hutangmu|gajimu|kesehatanmu)\\b",
+          "flags": "i"
+        }
+      ],
+      "rules": {
+        "personal-attributes-health": [
+          "\\b((gangguan )?kecemasan|cemas|depresi|diabetes|kencing manis|kegemukan|kelebihan berat badan|obesitas|gemuk|jerawat(an|mu)?|kanker|nyeri kronis|insomnia|susah tidur|kecanduan|botak|kebotakan|rambut rontok|serangan panik|gangguan (jiwa|mental)|disabilitas|cacat|darah tinggi|hipertensi|migrain|disfungsi ereksi|impoten|mandul|infertilitas|radang sendi|artritis|psoriasis|eksim|herpes|hiv|adhd)\\b"
+        ],
+        "personal-attributes-finances": [
+          "\\b((utang|hutang)(mu)?|terlilit (utang|hutang)|pinjol|gagal bayar|kredit macet|bi checking|slik ojk|bangkrut|pailit|bokek|nganggur|pengangguran|kena phk|gaji kecil|berpenghasilan rendah|(tidak|nggak|ngga|gak|ga) bisa bayar)\\b"
+        ],
+        "personal-attributes-religion": [
+          "\\b(muslim(ah)?|kristen|katolik|nasrani|yahudi|hindu|buddha|budha|ateis)\\b"
+        ],
+        "personal-attributes-sexuality-gender": [
+          "\\b(gay|lesbian|lesbi|biseksual|transgender|waria|lgbt(q)?\\+?|non[- ]biner)\\b"
+        ],
+        "personal-attributes-race-ethnicity": [
+          "\\b(tionghoa|cina|keturunan (arab|india|cina|tionghoa)|orang (jawa|batak|papua|madura|sunda|bali)|pribumi)\\b"
+        ],
+        "income-claims": [
+          "\\b((dapatkan|dapat|hasilkan|menghasilkan|raih|meraih|cuan|untung|gaji|penghasilan)\\s+(hingga\\s+|sampai\\s+|lebih dari\\s+)?(rp\\.?|\\$|usd)?\\s?\\d[\\d.,]*\\s*(rb|ribu|jt|juta|k|m)?\\s*(rupiah|dolar)?\\s*(per\\s*(hari|minggu|bulan|tahun|jam)|(setiap|tiap)\\s*(hari|minggu|bulan|tahun|jam)|sehari|seminggu|sebulan|setahun|/\\s*(hari|minggu|bulan|tahun|jam|hr|bln)))\\b",
+          "\\b(penghasilan pasif|passive income|cepat kaya|kaya mendadak|uang (mudah|instan)|cuan instan|duit gampang|enam digit|6 digit|tujuh digit)\\b"
+        ],
+        "guaranteed-results": [
+          "(?<!(uang kembali|garansi uang kembali)\\s)\\b(dijamin|terjamin|pasti berhasil|garansi (hasil|berhasil|sukses))\\b",
+          "\\b(100\\s?% (berhasil|ampuh|manjur|terbukti))\\b"
+        ],
+        "investment-returns": [
+          "\\b((return|imbal hasil|profit|keuntungan|bunga) (pasti|dijamin|tetap))\\b",
+          "\\b(\\d+([.,]\\d+)?\\s?% (per\\s*)?(hari|minggu|bulan|tahun)?\\s*(keuntungan|imbal hasil))\\b",
+          "\\b((profit|keuntungan|imbal hasil) \\d+([.,]\\d+)?\\s?%( per\\s*(hari|minggu|bulan))?)\\b",
+          "\\b(investasi (tanpa risiko|bebas risiko|anti rugi))\\b"
+        ],
+        "cure-claims": [
+          "\\b((menyembuhkan|sembuhkan|mengobati|sembuh dari|menghilangkan)\\s+(total\\s+)?(diabetes|kencing manis|kanker|kecemasan|depresi|radang sendi|autisme|alzheimer|demensia|hiv))\\b",
+          "\\b((obat|pil) ajaib|sembuh total|sembuh permanen)\\b"
+        ],
+        "before-after": [
+          "\\b(sebelum\\s*(dan|&|/|-)\\s*(sesudah|setelah)|before\\s*after)\\b"
+        ],
+        "weight-loss-claims": [
+          "\\b((turun|turunkan|menurunkan|hilangkan|buang|bakar|membakar)\\s+(berat\\s+(badan\\s+)?)?(hingga\\s+|sampai\\s+)?\\d+\\s*(kg|kilo|kilogram))\\b",
+          "\\b(pembakar lemak|bakar lemak|pelangsing instan|langsing dalam \\d+ hari)\\b"
+        ],
+        "negative-self-image": [
+          "\\b((malu dengan|benci) (tubuh|badan|perut|wajah|kulit)(mu| kamu| anda))\\b"
+        ],
+        "discriminatory-practices": [
+          "\\b((tidak menerima|tidak untuk|bukan untuk|dilarang|menolak)\\s+(non[- ]?muslim|cina|china|tionghoa|kristen|orang asing|lgbt|gay|papua))\\b"
+        ],
+        "prohibited-tobacco-vape": [
+          "\\b(rokok|cerutu|vape|rokok elektrik|liquid vape|pod vape|nikotin|tembakau|shisha)\\b"
+        ],
+        "prohibited-weapons": [
+          "\\b(senjata api|senapan angin|senapan|amunisi|peluru tajam|bahan peledak)\\b"
+        ],
+        "fake-ui-or-prize": [
+          "\\b((anda|kamu) menang|selamat,? (anda|kamu)|klaim hadiah(mu)?|(anda|kamu) terpilih)\\b"
+        ],
+        "prohibited-financial-products": [
+          "\\b(pinjol ilegal|pinjaman (kilat|cepat cair)|opsi biner|binary option)\\b"
+        ]
+      }
+    }
+  },
+  "unsupported": {
+    "tl": {
+      "name": "Tagalog",
+      "stopwords": [
+        "ang",
+        "ng",
+        "mga",
+        "ay",
+        "ito",
+        "kung",
+        "hindi",
+        "ikaw",
+        "siya",
+        "namin",
+        "natin",
+        "po",
+        "lang"
+      ]
+    },
+    "tr": {
+      "name": "Turkish",
+      "stopwords": [
+        "ve",
+        "bir",
+        "bu",
+        "icin",
+        "cok",
+        "daha",
+        "gibi",
+        "sen",
+        "siz",
+        "senin",
+        "sizin",
+        "hemen",
+        "simdi",
+        "degil",
+        "olan",
+        "artik"
+      ]
+    },
+    "pl": {
+      "name": "Polish",
+      "stopwords": [
+        "nie",
+        "jest",
+        "jak",
+        "juz",
+        "tak",
+        "twoj",
+        "twoja",
+        "dla",
+        "czy",
+        "tylko",
+        "teraz",
+        "bez"
+      ]
+    },
+    "sv": {
+      "name": "Swedish",
+      "stopwords": [
+        "och",
+        "att",
+        "som",
+        "inte",
+        "jag",
+        "ditt"
+      ]
+    },
+    "da": {
+      "name": "Danish or Norwegian",
+      "stopwords": [
+        "og",
+        "ikke",
+        "jeg",
+        "deg"
+      ]
+    },
+    "ro": {
+      "name": "Romanian",
+      "stopwords": [
+        "pentru",
+        "sunt",
+        "tau",
+        "acum",
+        "fara"
+      ]
+    },
+    "cs": {
+      "name": "Czech or Slovak",
+      "stopwords": [
+        "jako",
+        "jsem",
+        "jsi",
+        "tvuj",
+        "tvoje",
+        "nebo"
+      ]
+    },
+    "hu": {
+      "name": "Hungarian",
+      "stopwords": [
+        "hogy",
+        "egy",
+        "vagy",
+        "csak",
+        "alatt"
+      ]
+    },
+    "fi": {
+      "name": "Finnish",
+      "stopwords": [
+        "etta",
+        "mutta",
+        "olen",
+        "olet",
+        "sinun",
+        "ilman",
+        "nyt"
+      ]
+    },
+    "sw": {
+      "name": "Swahili",
+      "stopwords": [
+        "wa",
+        "kwa",
+        "katika",
+        "hii",
+        "yako",
+        "wewe",
+        "sasa"
+      ]
+    }
+  },
+  "scripts": [
+    {
+      "script": "Cyrillic",
+      "code": "cyrl",
+      "name": "a Cyrillic-script language (for example Russian or Ukrainian)"
+    },
+    {
+      "script": "Arabic",
+      "code": "arab",
+      "name": "an Arabic-script language (for example Arabic, Persian or Urdu)"
+    },
+    {
+      "script": "Hebrew",
+      "code": "hebr",
+      "name": "Hebrew"
+    },
+    {
+      "script": "Greek",
+      "code": "grek",
+      "name": "Greek"
+    },
+    {
+      "script": "Devanagari",
+      "code": "deva",
+      "name": "a Devanagari-script language (for example Hindi)"
+    },
+    {
+      "script": "Bengali",
+      "code": "beng",
+      "name": "Bengali"
+    },
+    {
+      "script": "Tamil",
+      "code": "taml",
+      "name": "Tamil"
+    },
+    {
+      "script": "Thai",
+      "code": "thai",
+      "name": "Thai"
+    },
+    {
+      "script": "Hangul",
+      "code": "kore",
+      "name": "Korean"
+    },
+    {
+      "script": "Hiragana",
+      "code": "jpan",
+      "name": "Japanese"
+    },
+    {
+      "script": "Katakana",
+      "code": "jpan",
+      "name": "Japanese"
+    },
+    {
+      "script": "Han",
+      "code": "hani",
+      "name": "Chinese"
+    },
+    {
+      "script": "Balinese",
+      "code": "bali",
+      "name": "Balinese script"
+    },
+    {
+      "script": "Javanese",
+      "code": "java",
+      "name": "Javanese script"
+    }
+  ],
+  "exclusiveLetters": [
+    {
+      "letters": "łąęśźżćń",
+      "code": "pl",
+      "name": "Polish"
+    },
+    {
+      "letters": "ğı",
+      "code": "tr",
+      "name": "Turkish"
+    },
+    {
+      "letters": "şț ţ",
+      "code": "ro",
+      "name": "Romanian or Turkish"
+    },
+    {
+      "letters": "őű",
+      "code": "hu",
+      "name": "Hungarian"
+    },
+    {
+      "letters": "řěůťďňľĺŕ",
+      "code": "cs",
+      "name": "Czech or Slovak"
+    },
+    {
+      "letters": "åðþ",
+      "code": "da",
+      "name": "a Nordic language (for example Swedish, Danish or Norwegian)"
+    }
+  ]
+}
