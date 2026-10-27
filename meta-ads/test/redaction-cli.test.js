@@ -37,6 +37,9 @@ async function run() {
     META_ADS_APP_ID: "123456789",
     META_ADS_AUDIT_LOG_PATH: auditPath,
     META_ADS_STUB_LOG: stubLog,
+    // Never the member's own .env: a writes flag or budget cap there would
+    // change what this test asserts and roll every self-update back.
+    META_ADS_IGNORE_ENV_FILES: "1",
     NODE_OPTIONS: `${process.env.NODE_OPTIONS || ""} --require=${JSON.stringify(stub)}`.trim(),
   };
   delete env.META_ADS_WRITES_ENABLED;
