@@ -86,6 +86,33 @@ Creative iteration should answer one question at a time. Keep a winning mechanis
 
 **Hold rate** is 15-second plays divided by 3-second views. A rough average is 40 to 50%; 60%+ is strong and under 30% signals a pacing problem [benchmark-study]. A good hook with a weak hold rate means the viewer accepted the premise but did not receive the payoff. Reveal the product, mechanism, or proof sooner in seconds 3 to 15.
 
+### Build ads in parts: hooks, meat, CTA (Hormozi, "GOATed Ads", paraphrased, 2 Nov 2026)
+
+Source: Alex Hormozi's Acquisition.com playbook "$100M Playbook: GOATed Ads" [single-source]. Paraphrased here, not quoted. The full PDF is in the Session 4 portal page for course members.
+
+**The idea.** Ads usually stall because the ads are not good enough for a colder, bigger audience, not because the market is used up. Better ads convert a wider slice of people. So build ads as three parts and mix them, instead of making each ad from scratch:
+
+- **Hook:** the opening line and image. This decides whether anyone sees the rest. Spend about 80% of prep time here.
+- **Meat:** the body that delivers on the hook. About 20% of prep time. It is seen less often, so it wears out slower.
+- **CTA:** the closing instruction. Almost no prep time. Say what to do, how, when, what they get, and show what happens next. Clear beats clever.
+
+His full-scale volume is 50 hooks x 3-5 meats x 1-3 CTAs, which is 150 to 750 ads a week. That is a big-team number. Do not recommend it to a small account.
+
+**Small-business version (the course default).** 5 hooks x 1 meat x 1 CTA is 5 ads a week, uploaded PAUSED, run as 3-5 ads in ONE ad set with ONE shared budget, in line with the small-budget floor above. A weekly 60 minute session: check which hook held attention, write 10 hooks and keep the best 5, film one video, write one CTA.
+
+**Where hooks come from, in order.** The account's own past winners, the owner's best free content (posts and reels), other people's ads and content, and ad libraries last (you can see the ads but not which ones perform).
+
+**Match the hook to how aware the viewer is.** Most aware: lead with the offer. Product aware: proof. Solution aware: the promise. Problem aware: the pain. Unaware: curiosity. Warm audiences are small and convert best, so start there and widen one step at a time. A beginner with offer-only hooks should add proof, then pain, before trying curiosity.
+
+**Five meat formats.** Demonstration (show the product or result), testimonial (to camera, raw phone, group, screenshots), education (whiteboard explainer, how-to), story (narrative, warning, skit), faceless (screenshots, text, slides). Easy starters for a small business: talking to camera, a screen demo, a customer message screenshot.
+
+**Rules for the agent.**
+1. Never propose more than 5 new ads in a week for an account under $1,500 to $2,000 a month. More ads split a tiny budget too thin to learn anything.
+2. When a hook wins, reuse that hook with a new body before inventing a new angle.
+3. Test CTAs last, by running identical hook and body with only the CTA changed.
+4. A new angle is a new ad. A new caption on the same video is the same ad.
+5. Log each ad as hook, awareness level, meat format, CTA, so the weekly review can say which part to change next.
+
 ## Measurement ladder: directional reports to causal confidence
 
 Never use a single number as truth. Move up this ladder as spend and stakes increase:
